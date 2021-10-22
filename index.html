@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salary calculator</title>
+  </head>
+  <body>
+    <div class="c-nomina">
+      <a name="coste_subida_fiscal"></a>
+      <div class="cal-sup">
+        <form
+          name="formulario_calculadora_irpf"
+          onKeyPress="return checkSubmit(event)"
+          class="formulario_calculadora_sueldo_neto"
+        >
+          <fieldset class="cal-datos">
+            <div class="n-general">
+              <h3>Datos generales y situación laboral</h3>
+              <div class="c-izq">
+                <!-- sueldo bruto anual -->
+                <p class="medium">
+                  <label for="bruto_anual">Sueldo bruto anual</label>
+                  <input
+                    id="bruto_anual"
+                    name="bruto_anual"
+                    value="45000"
+                    type="text"
+                  />
+                </p>
+                <!-- Situaci&oacute;n familiar -->
+                <p class="medium">
+                  <label for="situacion_familiar">Situación familiar</label>
+                  <select id="situacion_familiar" name="situacion_familiar">
+                    <option value="A" selected="selected">
+                      Soltero, viudo, divorciado o separado con hijos a cargo
+                    </option>
+                    <option value="B">
+                      Casado y cuyo cónyuge no obtiene rentas superiores a 1.500
+                      euros anuales
+                    </option>
+                    <option value="C">
+                      Otros. Soltero sin hijos, casado con o sin hijos y con
+                      cónyuge con rentas superiores a 1.500 euros al año
+                    </option>
+                  </select>
+                </p>
+                <!-- Tipo de contrato laboral -->
+                <p class="medium">
+                  <label for="tipo_contrato_laboral"
+                    >Tipo de contrato laboral</label
+                  >
+                  <select
+                    id="tipo_contrato_laboral"
+                    name="tipo_contrato_laboral"
+                  >
+                    <option value="0" selected="selected">General</option>
+                    <option value="1">Duración inferior a doce meses</option>
+                  </select>
+                </p>
+                <!-- Tipo de categor&iacute;a profesional -->
+                <p class="large separacion-extra">
+                  <label for="categoria_profesional"
+                    >* Si es un trabajador en activo, indique su categoría
+                    profesional</label
+                  >
+                  <select
+                    id="categoria_profesional"
+                    name="categoria_profesional"
+                  >
+                    <option value="A" selected="selected">
+                      Ingenieros y Licenciados
+                    </option>
+                    <option value="B">
+                      Ingenieros Técnicos, Peritos y Ayudantes Titulados
+                    </option>
+                    <option value="C">Jefes Administrativos y de Taller</option>
+                    <option value="D">Ayudantes no Titulados</option>
+                    <option value="E">Oficiales Administrativos</option>
+                    <option value="F">Subalternos</option>
+                    <option value="G">Auxiliares Administrativos</option>
+                    <option value="H">Oficiales de primera y segunda</option>
+                    <option value="I">
+                      Oficiales de tercera y Especialistas
+                    </option>
+                    <option value="J">Peones</option>
+                    <option value="K">
+                      Trabajadores menores de dieciocho años, cualquiera
+                    </option>
+                  </select>
+                </p>
+              </div>
+              <!-- fin c-izq -->
+              <div class="c-dch">
+                <!-- numero de pagas -->
+                <p class="little">
+                  <label for="numero_pagas">Número de pagas</label>
+                  <select id="numero_pagas" name="numero_pagas">
+                    <option value="12" selected="selected">12</option>
+                    <option value="14">14</option>
+                  </select>
+                </p>
+                <!-- edad -->
+                <p class="little">
+                  <label for="edad">Edad</label>
+                  <input id="edad" name="edad" value="30" type="text" />
+                </p>
+                <!-- movilidad geografica -->
+                <p class="check">
+                  <label for="movilidad_geografica">Movilidad geográfica</label>
+                  <input
+                    id="movilidad_geografica"
+                    name="movilidad_geografica"
+                    type="checkbox"
+                  />
+                </p>
+              </div>
+              <!-- c-dch -->
+            </div>
+            <!--n-general -->
+            <div class="plegables">
+              <div id="info_datos_familiares" class="n-general plegable">
+                <h3 id="datos_familiares" title="Desplegar">
+                  Datos familiares
+                </h3>
+                <div class="contenido">
+                  <div class="c-izq">
+                    <p class="little">
+                      <label for="hijos_menores_25_anos"
+                        >Número de hijos menores de 25 años</label
+                      >
+                      <input
+                        id="hijos_menores_25_anos"
+                        name="hijos_menores_25_anos"
+                        value="0"
+                        type="text"
+                      />
+                    </p>
+                    <p class="little">
+                      <label for="hijos_menores_3_anos"
+                        >De sus hijos, cuántos tienen menos de 3 años</label
+                      >
+                      <input
+                        id="hijos_menores_3_anos"
+                        name="hijos_menores_3_anos"
+                        value="0"
+                        type="text"
+                      />
+                    </p>
+                    <p class="check">
+                      <label class="hijos-exclusiva" for="hijos_en_exclusiva"
+                        >Tiene los hijos en exclusiva a efectos fiscales</label
+                      >
+                      <input
+                        id="hijos_en_exclusiva"
+                        name="hijos_en_exclusiva"
+                        type="checkbox"
+                      />
+                    </p>
+                    <p class="little">
+                      <label for="ascendente_mayor_65_menor_75"
+                        >Mayores de 65 años y menores de 75 años a cargo</label
+                      >
+                      <input
+                        id="ascendente_mayor_65_menor_75"
+                        name="ascendente_mayor_65_menor_75"
+                        value="0"
+                        type="text"
+                      />
+                    </p>
+                  </div>
+                  <!-- c-izq -->
+                  <div class="c-dch">
+                    <p class="little">
+                      <label for="ascendente_mayor_75"
+                        >Número de ascendientes mayores de 75 años a
+                        cargo</label
+                      >
+                      <input
+                        id="ascendente_mayor_75"
+                        name="ascendente_mayor_75"
+                        value="0"
+                        type="text"
+                      />
+                    </p>
+                    <p class="little">
+                      <label for="menor_65_con_discapacidad_cargo"
+                        >Menor de 65 años a cargo con discapacidad</label
+                      >
+                      <input
+                        id="menor_65_con_discapacidad_cargo"
+                        name="menor_65_con_discapacidad_cargo"
+                        value="0"
+                        type="text"
+                      />
+                    </p>
+                    <p class="little">
+                      <label
+                        class="ascendentes"
+                        for="numero_personas_deduccion_ascendientes"
+                        >Contribuyentes que aplican los mínimos por
+                        ascendiente</label
+                      >
+                      <input
+                        id="numero_personas_deduccion_ascendientes"
+                        name="numero_personas_deduccion_ascendientes"
+                        value="0"
+                        type="text"
+                      />
+                    </p>
+                  </div>
+                  <!-- c-dch -->
+                </div>
+              </div>
+              <!-- familia -->
+              <div
+                id="info_minusvalia_contribuyente"
+                class="n-general plegable plegado"
+              >
+                <h3 id="minusvalia_contribuyente" title="Desplegar">
+                  Otros datos del contribuyente
+                </h3>
+                <div class="contenido">
+                  <div class="c-izq">
+                    <p class="check">
+                      <label class="hijos-exclusiva" for="minusvalia_33_al_65"
+                        >Grado de discapacidad entre el 33% y el 65%</label
+                      >
+                      <input
+                        id="minusvalia_33_al_65"
+                        name="minusvalia_33_al_65"
+                        type="checkbox"
+                      />
+                    </p>
+                  </div>
+                  <div class="c-dch">
+                    <p class="check">
+                      <label class="hijos-exclusiva" for="minusvalia_sup_al_65"
+                        >Grado de discapacidad igual o superior al 65% o con
+                        movilidad reducida</label
+                      >
+                      <input
+                        id="minusvalia_sup_al_65"
+                        name="minusvalia_sup_al_65"
+                        type="checkbox"
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                id="info_minusvalia_hijos"
+                class="n-general plegable plegado"
+              >
+                <h3 id="minusvalia_hijos" title="Desplegar">
+                  Otros datos de los hijos y de los mayores a cargo
+                </h3>
+                <div class="contenido">
+                  <div class="c-izq">
+                    <p class="little">
+                      <label for="descendientes_con_minusvalia_33_al_65"
+                        >Número de descendientes con grado de discapacidad entre
+                        el 33% y el 65%</label
+                      >
+                      <input
+                        id="descendientes_con_minusvalia_33_al_65"
+                        name="descendientes_con_minusvalia_33_al_65"
+                        value="0"
+                        type="text"
+                      />
+                    </p>
+                    <p class="little">
+                      <label for="ascendientes_con_minusvalia_33_al_65"
+                        >Número de ascendientes con grado de discapacidad entre
+                        el 33% y el 65%</label
+                      >
+                      <input
+                        id="ascendientes_con_minusvalia_33_al_65"
+                        name="ascendientes_con_minusvalia_33_al_65"
+                        value="0"
+                        type="text"
+                      />
+                    </p>
+                  </div>
+                  <div class="c-dch">
+                    <p class="little">
+                      <label for="descendientes_con_minusvalia_sup_al_65"
+                        >Número de descendientes con grado de discapacidad igual
+                        o superior al 65%</label
+                      >
+                      <input
+                        id="descendientes_con_minusvalia_sup_al_65"
+                        name="descendientes_con_minusvalia_sup_al_65"
+                        value="0"
+                        type="text"
+                      />
+                    </p>
+                    <p class="little">
+                      <label for="ascendientes_con_minusvalia_sup_al_65"
+                        >Número de ascendientes con grado de discapacidad igual
+                        o superior al 65%</label
+                      >
+                      <input
+                        id="ascendientes_con_minusvalia_sup_al_65"
+                        name="ascendientes_con_minusvalia_sup_al_65"
+                        value="0"
+                        type="text"
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- plegables -->
+          </fieldset>
+          <fieldset class="c-boton">
+            <div class="error" id="error"></div>
+            <input
+              class="boton"
+              id="calcular_nomina"
+              name="calcular"
+              value="calcular"
+              type="button"
+            />
+          </fieldset>
+        </form>
+      </div>
+      <div id="resultados_calculadora_nomina" class="oculto">
+        <a name="tabla_resultados" id="ancla_tabla_resultados"></a>
+        <table>
+          <thead>
+            <tr>
+              <th class="vacia" scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="col_one">Sueldo bruto anual</th>
+              <td class="normal">
+                <div id="celda_sueldo_bruto_anual_2017">--</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="col_one">Retenciones por IRPF</td>
+              <td class="normal">
+                <div id="celda_retenciones_IRPF_2017">--</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="col_one">Cuotas a la Seg. Social</td>
+              <td class="normal"><div id="celda_coutas_ss_2017">--</div></td>
+            </tr>
+            <tr>
+              <td class="col_one">Sueldo neto anual</td>
+              <td class="normal">
+                <div id="celda_sueldo_neto_anual_2017">--</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="col_one">Tipo de retención sobre la nómina</td>
+              <td class="normal">
+                <div id="celda_tipo_retencion_IRPF_2017">--</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="col_one">
+                Sueldo neto mensual (<span id="numero_pagas_sueldo_neto"></span>
+                pagas)
+              </td>
+              <td class="normal"><div id="celda_sueldo_neto_2017">--</div></td>
+            </tr>
+            <tr id="fila_paga_extra"></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script type="text/javascript" src="taxscouts.js"></script>
+  </body>
+</html>
