@@ -1,0 +1,13 @@
+{
+  "name": "salary-calculator",
+  "version": "1.0.0",
+  "description": "Salary calculator",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^2.6.10"
+  }
+}
