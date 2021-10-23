@@ -1,10 +1,71 @@
+const $movilidad_geografica = document.getElementById(
+  "movilidad_geografica"
+) as HTMLInputElement;
+const $minusvalia_33_al_65 = document.getElementById(
+  "minusvalia_33_al_65"
+) as HTMLInputElement;
+const $minusvalia_sup_al_65 = document.getElementById(
+  "minusvalia_sup_al_65"
+) as HTMLInputElement;
+const $div_error = document.getElementById("error");
+const $numero_pagas = document.getElementById(
+  "numero_pagas"
+) as HTMLInputElement;
+const $resultados_calculadora_nomina = document.getElementById(
+  "resultados_calculadora_nomina"
+);
+const $categoria_profesional = document.getElementById(
+  "categoria_profesional"
+) as HTMLInputElement;
+const $hijos_en_exclusiva = document.getElementById(
+  "hijos_en_exclusiva"
+) as HTMLInputElement;
+const $situacion_familiar = document.getElementById(
+  "situacion_familiar"
+) as HTMLInputElement;
+const $tipo_contrato_laboral = document.getElementById(
+  "tipo_contrato_laboral"
+) as HTMLInputElement;
+const $bruto_anual = document.getElementById("bruto_anual") as HTMLInputElement;
+const $edad = document.getElementById("edad") as HTMLInputElement;
+const $hijos_menores_25_anos = document.getElementById(
+  "hijos_menores_25_anos"
+) as HTMLInputElement;
+const $hijos_menores_3_anos = document.getElementById(
+  "hijos_menores_3_anos"
+) as HTMLInputElement;
+const $ascendente_mayor_65_menor_75 = document.getElementById(
+  "ascendente_mayor_65_menor_75"
+) as HTMLInputElement;
+const $ascendente_mayor_75 = document.getElementById(
+  "ascendente_mayor_75"
+) as HTMLInputElement;
+const $menor_65_con_discapacidad_cargo = document.getElementById(
+  "menor_65_con_discapacidad_cargo"
+) as HTMLInputElement;
+const $numero_personas_deduccion_ascendientes = document.getElementById(
+  "numero_personas_deduccion_ascendientes"
+) as HTMLInputElement;
+const $descendientes_con_minusvalia_33_al_65 = document.getElementById(
+  "descendientes_con_minusvalia_33_al_65"
+) as HTMLInputElement;
+const $descendientes_con_minusvalia_sup_al_65 = document.getElementById(
+  "descendientes_con_minusvalia_sup_al_65"
+) as HTMLInputElement;
+const $ascendientes_con_minusvalia_33_al_65 = document.getElementById(
+  "ascendientes_con_minusvalia_33_al_65"
+) as HTMLInputElement;
+const $ascendientes_con_minusvalia_sup_al_65 = document.getElementById(
+  "ascendientes_con_minusvalia_sup_al_65"
+) as HTMLInputElement;
+
 /**
  * convierte una cadena a objeto Number
  * param: dato, string
  * return: NaN o Number object
  */
-var f_format_string_to_number = function (dato) {
-  return new Number(dato.replace(".", "").replace(",", "."));
+var f_format_string_to_number = function (dato: string) {
+  return Number(dato.replace(".", "").replace(",", "."));
 };
 
 /**
@@ -13,16 +74,16 @@ var f_format_string_to_number = function (dato) {
  * param: digits, double, valor a convertir
  * return String: cadena truncada al numero de digitos
  */
-var truncateNumber = function (num, digits) {
-  num += "";
+var truncateNumber = function (num: number, digits: number) {
+  let numString = num + "";
   //ojo, tengo que forzar a decimal siempre
-  if (num.indexOf(".") == -1) {
+  if (numString.indexOf(".") == -1) {
     //convierto al tipo number con 2 decimales
-    num = f_format_string_to_number(num).toFixed(digits);
-    num += "";
+    numString = f_format_string_to_number(numString).toFixed(digits);
+    numString += "";
   }
 
-  var splitStr = num.split(".");
+  var splitStr = numString.split(".");
   var splitLeft = splitStr[0];
   var splitRight = splitStr[1].substring(0, digits);
 
@@ -35,12 +96,12 @@ var truncateNumber = function (num, digits) {
  * @param num, number
  * @retrun string
  */
-var formatNumber = function (num) {
+var formatNumber = function (num: number | string) {
   var separador = ".";
   var sepDecimal = ",";
-  num += "";
+  let numString = num + "";
 
-  var splitStr = num.split(".");
+  var splitStr = numString.split(".");
   var splitLeft = splitStr[0];
   var splitRight = splitStr.length > 1 ? sepDecimal + splitStr[1] : "";
   var regx = /(\d+)(\d{3})/;
@@ -50,40 +111,18 @@ var formatNumber = function (num) {
   return splitLeft + splitRight;
 }; //end function formatNumber
 
-/**
- * Detecta la pulsación de la tecla return o intro...
- */
-function checkSubmit(e) {
-  var keycode;
-  if (window.event) keycode = window.event.keyCode;
-  else if (e) keycode = e.which;
-  else return true;
-  if (keycode == 13 || keycode == 3) {
-    f_calcular_nomina();
+function f_muestra_error(error: string) {
+  if ($div_error) {
+    $div_error.innerHTML = error;
   }
-}
-
-/**
- * Detecta la pulsación de la tecla return o intro...
- */
-function ponerFoco() {
-  var el = document.getElementById("bruto_anual");
-  if (el) {
-    el.focus();
-  }
-}
-
-function f_muestra_error(error) {
-  var div_error = document.getElementById("error");
-  div_error.innerHTML = error;
 }
 
 function f_calcuar_cuota_mensual_pagar(
-  anio,
-  bruto_anual,
-  categoria_profesional
+  _: number,
+  bruto_anual: number,
+  categoria_profesional: string
 ) {
-  var datos = {
+  var datos: { [key: string]: { min: number; max: number }[] } = {
     A: [{ min: 1052.9, max: 3751.2 }],
     B: [{ min: 956.1, max: 3751.2 }],
     C: [{ min: 831.6, max: 3751.2 }],
@@ -111,16 +150,10 @@ function f_calcuar_cuota_mensual_pagar(
   return cuota_mensual_pagar;
 }
 
-function f_calcular_reduccion_rendimiento_neto(anio, rendimiento_neto) {
-  var movilidad_geografica = document.getElementById(
-    "movilidad_geografica"
-  ).checked;
-  var minusvalia_33_al_65 = document.getElementById(
-    "minusvalia_33_al_65"
-  ).checked;
-  var minusvalia_sup_al_65 = document.getElementById(
-    "minusvalia_sup_al_65"
-  ).checked;
+function f_calcular_reduccion_rendimiento_neto(
+  _: number,
+  rendimiento_neto: number
+) {
   var reduccion_comun_todos = 2000;
 
   if (rendimiento_neto < 11250) var reduccion_rendimiento_neto = 3700;
@@ -130,14 +163,15 @@ function f_calcular_reduccion_rendimiento_neto(anio, rendimiento_neto) {
       3700 - 1.15625 * (rendimiento_neto - 11250);
 
   //si el check de movilidad_geografica esta seleccionado
-  if (movilidad_geografica)
+  if ($movilidad_geografica.checked)
     var incremento_movilidad_geografica = reduccion_rendimiento_neto;
   else var incremento_movilidad_geografica = 0;
 
-  if (minusvalia_33_al_65) var minusvalia_igual_superior_33 = 3500;
+  if ($minusvalia_33_al_65.checked) var minusvalia_igual_superior_33 = 3500;
   else var minusvalia_igual_superior_33 = 0;
 
-  if (minusvalia_sup_al_65) var minusvalia_sup_65_o_movilidad_reducida = 7750;
+  if ($minusvalia_sup_al_65.checked)
+    var minusvalia_sup_65_o_movilidad_reducida = 7750;
   else var minusvalia_sup_65_o_movilidad_reducida = 0;
 
   //por el momento no tenemos los calculos para desempleados o pensionistas
@@ -155,7 +189,7 @@ function f_calcular_reduccion_rendimiento_neto(anio, rendimiento_neto) {
   );
 }
 
-function f_calcular_minimo_personal(anio, edad) {
+function f_calcular_minimo_personal(_: number, edad: number) {
   if (edad <= 65) {
     return 5550;
   } else if (edad > 75) {
@@ -165,7 +199,10 @@ function f_calcular_minimo_personal(anio, edad) {
   }
 }
 
-function f_calcular_minimo_descendientes(anio, hijos_menores_25_anos) {
+function f_calcular_minimo_descendientes(
+  _: number,
+  hijos_menores_25_anos: number
+) {
   if (hijos_menores_25_anos == 0) {
     return 0;
   } else if (hijos_menores_25_anos == 1) {
@@ -181,7 +218,7 @@ function f_calcular_minimo_descendientes(anio, hijos_menores_25_anos) {
   }
 }
 
-function f_calcular_tramos_base_liquidable(base_liquidable) {
+function f_calcular_tramos_base_liquidable(base_liquidable: number) {
   // tramo 1
   if (base_liquidable < 12450) {
     var tramo_1 = base_liquidable * 0.19;
@@ -233,111 +270,12 @@ function f_calcular_tramos_base_liquidable(base_liquidable) {
   return tramo_1 + tramo_2 + tramo_3 + tramo_4 + tramo_5;
 }
 
-function f_calcular_tramos_situacion_familiar(
-  situacion_familiar,
-  hijos_menores_25_anos
-) {
-  if (situacion_familiar == "B") {
-    if (hijos_menores_25_anos == 0) {
-      return 13696;
-    } else if (hijos_menores_25_anos == 1) {
-      return 14985;
-    } else {
-      return 17138;
-    }
-  } else if (situacion_familiar == "C") {
-    if (hijos_menores_25_anos == 0) {
-      return 12000;
-    } else if (hijos_menores_25_anos == 1) {
-      return 12607;
-    } else {
-      return 13275;
-    }
-  } else {
-    if (hijos_menores_25_anos == 0) {
-      return 0;
-    } else if (hijos_menores_25_anos == 1) {
-      return 14266;
-    } else {
-      return 15803;
-    }
-  }
-}
-
-function f_calcular_tipo_retencion_minimos_tributacion(
-  situacion_familiar,
-  bruto_anual,
-  tipo_final_retencion_truncado,
-  hijos_menores_25_anos
-) {
-  // recupero los minimos asociados a la situacion familiar
-  var minimo_situacion_familiar = f_calcular_tramos_situacion_familiar(
-    situacion_familiar,
-    hijos_menores_25_anos
-  );
-
-  //tipo A (soltero)
-  if (situacion_familiar == "A") {
-    if (hijos_menores_25_anos == 0) {
-      return tipo_final_retencion_truncado;
-    } else if (hijos_menores_25_anos == 1) {
-      if (bruto_anual < minimo_situacion_familiar) {
-        return 0;
-      } else {
-        return tipo_final_retencion_truncado;
-      }
-    } else {
-      if (bruto_anual < minimo_situacion_familiar) {
-        return 0;
-      } else {
-        return tipo_final_retencion_truncado;
-      }
-    }
-  }
-  //tipo B
-  else if (situacion_familiar == "B") {
-    if (hijos_menores_25_anos == 0) {
-      return tipo_final_retencion_truncado;
-    } else if (hijos_menores_25_anos == 1) {
-      if (bruto_anual < minimo_situacion_familiar) {
-        return 0;
-      } else {
-        return tipo_final_retencion_truncado;
-      }
-    } else {
-      if (bruto_anual < minimo_situacion_familiar) {
-        return 0;
-      } else {
-        return tipo_final_retencion_truncado;
-      }
-    }
-  }
-  //tipo C
-  else {
-    if (hijos_menores_25_anos == 0) {
-      return tipo_final_retencion_truncado;
-    } else if (hijos_menores_25_anos == 1) {
-      if (bruto_anual < minimo_situacion_familiar) {
-        return 0;
-      } else {
-        return tipo_final_retencion_truncado;
-      }
-    } else {
-      if (bruto_anual < minimo_situacion_familiar) {
-        return 0;
-      } else {
-        return tipo_final_retencion_truncado;
-      }
-    }
-  }
-}
-
 function f_calcular_tipo_retencion_situacion_contribuyente(
-  anio,
-  tipo_retencion,
-  situacion_familiar,
-  hijos_menores_25_anos,
-  bruto_anual
+  _: number,
+  tipo_retencion: number,
+  situacion_familiar: "A" | "B" | "C",
+  hijos_menores_25_anos: number,
+  bruto_anual: number
 ) {
   var _tipo_retencion = 0;
 
@@ -373,40 +311,24 @@ function f_calcular_tipo_retencion_situacion_contribuyente(
       else return tipo_retencion;
     }
   }
+
+  return 0;
 }
 
+// @ts-ignore: Not all paths return a value.
 function f_calcular_nomina() {
   //datos por defecto, combos y checks
   var num_decimales = 2;
-  var numero_pagas = document.getElementById("numero_pagas").value;
-  var categoria_profesional = document.getElementById(
-    "categoria_profesional"
-  ).value;
-  var hijos_en_exclusiva =
-    document.getElementById("hijos_en_exclusiva").checked;
-  var minusvalia_33_al_65 = document.getElementById(
-    "minusvalia_33_al_65"
-  ).checked;
-  var minusvalia_sup_al_65 = document.getElementById(
-    "minusvalia_sup_al_65"
-  ).checked;
-
-  var situacion_familiar = document.getElementById("situacion_familiar").value;
-  var tipo_contrato_laboral = document.getElementById(
-    "tipo_contrato_laboral"
-  ).value;
 
   /* Start: Validacion del formulario */
-  var bruto_anual = f_format_string_to_number(
-    document.getElementById("bruto_anual").value
-  );
+  var bruto_anual = f_format_string_to_number($bruto_anual.value);
   if (isNaN(bruto_anual) || bruto_anual <= 0) {
     f_muestra_error("El sueldo bruto anual no es un dato correcto");
     //alert("El sueldo bruto anual no es un dato correcto");
     return false;
   }
 
-  var edad = f_format_string_to_number(document.getElementById("edad").value);
+  var edad = f_format_string_to_number($edad.value);
   if (isNaN(edad) || edad <= 0) {
     //      alert("La edad no es un dato correcto");
     f_muestra_error("La edad no es un dato correcto");
@@ -415,7 +337,7 @@ function f_calcular_nomina() {
 
   /* para evitar datos absurdos como hijos menores de 25 = -1 */
   var hijos_menores_25_anos = f_format_string_to_number(
-    document.getElementById("hijos_menores_25_anos").value
+    $hijos_menores_25_anos.value
   );
   if (isNaN(hijos_menores_25_anos)) {
     //alert("El número de hijos menores de 25 años no es un dato correcto");
@@ -426,12 +348,11 @@ function f_calcular_nomina() {
   }
   if (hijos_menores_25_anos < 0) {
     hijos_menores_25_anos = 0;
-    document.getElementById("hijos_menores_25_anos").value =
-      hijos_menores_25_anos;
+    $hijos_menores_25_anos.value = hijos_menores_25_anos + "";
   }
 
   var hijos_menores_3_anos = f_format_string_to_number(
-    document.getElementById("hijos_menores_3_anos").value
+    $hijos_menores_3_anos.value
   );
   if (isNaN(hijos_menores_3_anos)) {
     //alert("El número de hijos menores de 3 años no es un dato correcto");
@@ -442,12 +363,11 @@ function f_calcular_nomina() {
   }
   if (hijos_menores_3_anos < 0) {
     hijos_menores_3_anos = 0;
-    document.getElementById("hijos_menores_3_anos").value =
-      hijos_menores_3_anos;
+    $hijos_menores_3_anos.value = hijos_menores_3_anos + "";
   }
 
   var ascendente_mayor_65_menor_75 = f_format_string_to_number(
-    document.getElementById("ascendente_mayor_65_menor_75").value
+    $ascendente_mayor_65_menor_75.value
   );
   if (isNaN(ascendente_mayor_65_menor_75)) {
     //alert("El número de mayores de 65 años y menores de 75 años a cargo no es un dato correcto");
@@ -458,12 +378,11 @@ function f_calcular_nomina() {
   }
   if (ascendente_mayor_65_menor_75 < 0) {
     ascendente_mayor_65_menor_75 = 0;
-    document.getElementById("ascendente_mayor_65_menor_75").value =
-      ascendente_mayor_65_menor_75;
+    $ascendente_mayor_65_menor_75.value = ascendente_mayor_65_menor_75 + "";
   }
 
   var ascendente_mayor_75 = f_format_string_to_number(
-    document.getElementById("ascendente_mayor_75").value
+    $ascendente_mayor_75.value
   );
   if (isNaN(ascendente_mayor_75)) {
     //alert("El número de ascendientes mayores de 75 años a cargo no es un dato correcto");
@@ -474,11 +393,11 @@ function f_calcular_nomina() {
   }
   if (ascendente_mayor_75 < 0) {
     ascendente_mayor_75 = 0;
-    document.getElementById("ascendente_mayor_75").value = ascendente_mayor_75;
+    $ascendente_mayor_75.value = ascendente_mayor_75 + "";
   }
 
   var menor_65_con_discapacidad_cargo = f_format_string_to_number(
-    document.getElementById("menor_65_con_discapacidad_cargo").value
+    $menor_65_con_discapacidad_cargo.value
   );
   if (isNaN(menor_65_con_discapacidad_cargo)) {
     //alert("El número de menores de 65 años a cargo con discapacidad a cargo no es un dato correcto");
@@ -489,12 +408,12 @@ function f_calcular_nomina() {
   }
   if (menor_65_con_discapacidad_cargo < 0) {
     menor_65_con_discapacidad_cargo = 0;
-    document.getElementById("menor_65_con_discapacidad_cargo").value =
-      menor_65_con_discapacidad_cargo;
+    $menor_65_con_discapacidad_cargo.value =
+      menor_65_con_discapacidad_cargo + "";
   }
 
   var numero_personas_deduccion_ascendientes = f_format_string_to_number(
-    document.getElementById("numero_personas_deduccion_ascendientes").value
+    $numero_personas_deduccion_ascendientes.value
   );
   if (isNaN(numero_personas_deduccion_ascendientes)) {
     //alert("El número de contribuyentes que aplican los mínimos por ascendiente no es un dato correcto");
@@ -505,8 +424,8 @@ function f_calcular_nomina() {
   }
   if (numero_personas_deduccion_ascendientes < 0) {
     numero_personas_deduccion_ascendientes = 0;
-    document.getElementById("numero_personas_deduccion_ascendientes").value =
-      numero_personas_deduccion_ascendientes;
+    $numero_personas_deduccion_ascendientes.value =
+      numero_personas_deduccion_ascendientes + "";
   }
   //NOTA: este valor se emplea como divisor (en los calculos de mínimos) no puede ser 0
   if (numero_personas_deduccion_ascendientes > 0)
@@ -515,7 +434,7 @@ function f_calcular_nomina() {
   else var divisor_para_minimos_deduccion_ascendientes = 1;
 
   var descendientes_con_minusvalia_33_al_65 = f_format_string_to_number(
-    document.getElementById("descendientes_con_minusvalia_33_al_65").value
+    $descendientes_con_minusvalia_33_al_65.value
   );
   if (isNaN(descendientes_con_minusvalia_33_al_65)) {
     //alert("El número de descendientes con grado de discapacidad entre 33% y 65%  no es un dato correcto");
@@ -526,12 +445,12 @@ function f_calcular_nomina() {
   }
   if (descendientes_con_minusvalia_33_al_65 < 0) {
     descendientes_con_minusvalia_33_al_65 = 0;
-    document.getElementById("descendientes_con_minusvalia_33_al_65").value =
-      descendientes_con_minusvalia_33_al_65;
+    $descendientes_con_minusvalia_33_al_65.value =
+      descendientes_con_minusvalia_33_al_65 + "";
   }
 
   var descendientes_con_minusvalia_sup_al_65 = f_format_string_to_number(
-    document.getElementById("descendientes_con_minusvalia_sup_al_65").value
+    $descendientes_con_minusvalia_sup_al_65.value
   );
   if (isNaN(descendientes_con_minusvalia_sup_al_65)) {
     //alert("El número de descendientes con grado de discapacidad superior al 65% no es un dato correcto");
@@ -542,12 +461,12 @@ function f_calcular_nomina() {
   }
   if (descendientes_con_minusvalia_sup_al_65 < 0) {
     descendientes_con_minusvalia_sup_al_65 = 0;
-    document.getElementById("descendientes_con_minusvalia_sup_al_65").value =
-      descendientes_con_minusvalia_sup_al_65;
+    $descendientes_con_minusvalia_sup_al_65.value =
+      descendientes_con_minusvalia_sup_al_65 + "";
   }
 
   var ascendientes_con_minusvalia_33_al_65 = f_format_string_to_number(
-    document.getElementById("ascendientes_con_minusvalia_33_al_65").value
+    $ascendientes_con_minusvalia_33_al_65.value
   );
   if (isNaN(ascendientes_con_minusvalia_33_al_65)) {
     //alert("El número de ascendientes con grado de discapacidad entre el 33% y el 65% no es un dato correcto");
@@ -558,12 +477,12 @@ function f_calcular_nomina() {
   }
   if (ascendientes_con_minusvalia_33_al_65 < 0) {
     ascendientes_con_minusvalia_33_al_65 = 0;
-    document.getElementById("ascendientes_con_minusvalia_33_al_65").value =
-      ascendientes_con_minusvalia_33_al_65;
+    $ascendientes_con_minusvalia_33_al_65.value =
+      ascendientes_con_minusvalia_33_al_65 + "";
   }
 
   var ascendientes_con_minusvalia_sup_al_65 = f_format_string_to_number(
-    document.getElementById("ascendientes_con_minusvalia_sup_al_65").value
+    $ascendientes_con_minusvalia_sup_al_65.value
   );
   if (isNaN(ascendientes_con_minusvalia_sup_al_65)) {
     //alert("El número de ascendientes con grado de discapacidad igual o superior al 65% no es un dato correcto");
@@ -574,18 +493,14 @@ function f_calcular_nomina() {
   }
   if (ascendientes_con_minusvalia_sup_al_65 < 0) {
     ascendientes_con_minusvalia_sup_al_65 = 0;
-    document.getElementById("ascendientes_con_minusvalia_sup_al_65").value =
-      ascendientes_con_minusvalia_sup_al_65;
+    $ascendientes_con_minusvalia_sup_al_65.value =
+      ascendientes_con_minusvalia_sup_al_65 + "";
   }
-  /* End: validación del formulario */
-
-  checkNumPagas();
-
   /* paso 1: calcular base imponible */
   var cuota_mensual_pagar = f_calcuar_cuota_mensual_pagar(
     2017,
     bruto_anual,
-    categoria_profesional
+    $categoria_profesional.value
   );
   var cuota_acumulado_ano = cuota_mensual_pagar * 12;
   var rendimiento_neto = bruto_anual - cuota_acumulado_ano;
@@ -611,7 +526,7 @@ function f_calcular_nomina() {
   );
 
   //Mínimo por hijos en función de beneficiarios, según tenga hijos en exclusiva a efectos fiscales S/N (dependiente del minimo_descendientes)
-  if (hijos_en_exclusiva) {
+  if ($hijos_en_exclusiva.checked) {
     var minimo_hijos_beneficiarios = minimo_descendientes;
   } else {
     var minimo_hijos_beneficiarios = minimo_descendientes / 2;
@@ -620,7 +535,7 @@ function f_calcular_nomina() {
   var minimo_hijos_menores_3_anos = hijos_menores_3_anos * 2800;
 
   //Mín. por hijos <3 años en función de beneficiarios, según tenga hijos en exclusiva a efectos fiscales S/N (dependiente del minimo_hijos_menores_3_anos)
-  if (hijos_en_exclusiva) {
+  if ($hijos_en_exclusiva.checked) {
     var minimo_hijos_menores_3_anos_beneficiarios = minimo_hijos_menores_3_anos;
   } else {
     var minimo_hijos_menores_3_anos_beneficiarios =
@@ -640,7 +555,7 @@ function f_calcular_nomina() {
   /* minusvalias */
   var minimo_descendientes_con_minusvalia_33_al_65 =
     descendientes_con_minusvalia_33_al_65 * 3000;
-  if (hijos_en_exclusiva) {
+  if ($hijos_en_exclusiva.checked) {
     var minimo_descendientes_con_minusvalia_33_al_65_beneficiarios =
       minimo_descendientes_con_minusvalia_33_al_65;
   } else {
@@ -650,7 +565,7 @@ function f_calcular_nomina() {
 
   var minimo_descendientes_con_minusvalia_sup_al_65 =
     descendientes_con_minusvalia_sup_al_65 * 12000;
-  if (hijos_en_exclusiva) {
+  if ($hijos_en_exclusiva.checked) {
     var minimo_descendientes_con_minusvalia_sup_al_65_beneficiarios =
       minimo_descendientes_con_minusvalia_sup_al_65;
   } else {
@@ -667,14 +582,14 @@ function f_calcular_nomina() {
     divisor_para_minimos_deduccion_ascendientes;
 
   /* Si esta selccionado la opcion "grado de discapacidad entre el 33% y el 65%" tiene un valor fijo en caso contrario el dato es 0 */
-  if (minusvalia_33_al_65) {
+  if ($minusvalia_33_al_65.checked) {
     var minimo_minusvalia_33_al_65 = 3000;
   } else {
     var minimo_minusvalia_33_al_65 = 0;
   }
 
   /* Si esta selccionado la opcion "grado de discapacidad superior al 65% o con movilidad reducida" tiene un valor fijo en caso contrario el dato es 0 */
-  if (minusvalia_sup_al_65) {
+  if ($minusvalia_sup_al_65.checked) {
     var minimo_minusvalia_sup_al_65 = 12000;
   } else {
     var minimo_minusvalia_sup_al_65 = 0;
@@ -697,17 +612,16 @@ function f_calcular_nomina() {
   /* fin paso 2: Calculo del Mín. personal y familiar*/
 
   /* paso3: calcular retenciones */
-  var cuota_retencion = (
-    f_calcular_tramos_base_liquidable(base_imponible) -
-    f_calcular_tramos_base_liquidable(suma_minimos)
-  ).toFixed(num_decimales);
+  var cuota_retencion = Number(
+    (
+      f_calcular_tramos_base_liquidable(base_imponible) -
+      f_calcular_tramos_base_liquidable(suma_minimos)
+    ).toFixed(num_decimales)
+  );
 
   var tipo_previo = (cuota_retencion / bruto_anual) * 100;
-  var tipo_previo_redondeado = ((cuota_retencion / bruto_anual) * 100).toFixed(
-    0
-  );
-  var importe_previo_retencion = ((tipo_previo / 100) * bruto_anual).toFixed(
-    num_decimales
+  var importe_previo_retencion = Number(
+    ((tipo_previo / 100) * bruto_anual).toFixed(num_decimales)
   );
 
   //no hay deduccion
@@ -715,12 +629,13 @@ function f_calcular_nomina() {
   //var tipo_final_retencion     =  (((importe_previo_retencion - deduccion_400_euros)/bruto_anual)*100).toFixed(num_decimales);
 
   //OJO!!!! truncado no redondeado > truncateNumber
-  var tipo_final_retencion_truncado = truncateNumber(
-    ((importe_previo_retencion - deduccion_400_euros) / bruto_anual) * 100,
-    num_decimales
+  var tipo_final_retencion_truncado = Number(
+    truncateNumber(
+      ((importe_previo_retencion - deduccion_400_euros) / bruto_anual) * 100,
+      num_decimales
+    )
   );
   if (tipo_final_retencion_truncado < 0) tipo_final_retencion_truncado = 0;
-  //var tipo_retencion_minimos_tributacion = f_calcular_tipo_retencion_minimos_tributacion(situacion_familiar, bruto_anual, tipo_final_retencion_truncado, hijos_menores_25_anos);
   var importe_final_retencion =
     (tipo_final_retencion_truncado / 100) * bruto_anual;
   /* fin paso3: calcular retenciones */
@@ -731,12 +646,13 @@ function f_calcular_nomina() {
   var tipo_retencion = f_calcular_tipo_retencion_situacion_contribuyente(
     2017,
     tipo_final_retencion_truncado,
-    situacion_familiar,
+    $situacion_familiar.value as "A" | "B" | "C",
     hijos_menores_25_anos,
     bruto_anual
   );
   // correccion tipo contrato laboral
-  if (tipo_contrato_laboral == "1" && tipo_retencion < 2) tipo_retencion = 2;
+  if ($tipo_contrato_laboral.value == "1" && tipo_retencion < 2)
+    tipo_retencion = 2;
   // correccion valor negativos!!!!!
   if (tipo_retencion < 0) tipo_retencion = 0;
 
@@ -765,7 +681,7 @@ function f_calcular_nomina() {
   );
   ponerResultado("celda_tipo_retencion_IRPF_2017", tipo_retencion, "%");
   ponerResultado("celda_coutas_ss_2017", seguridad_social.toFixed(1), "&euro;");
-  if (numero_pagas == "14") {
+  if ($numero_pagas.value == "14") {
     ponerResultado(
       "celda_sueldo_neto_2017",
       salario_mensual.toFixed(1),
@@ -780,14 +696,18 @@ function f_calcular_nomina() {
     );
   }
 
-  document.getElementById("resultados_calculadora_nomina").className = "";
+  if ($resultados_calculadora_nomina) {
+    $resultados_calculadora_nomina.className = "";
+  }
 
-  document.getElementById("error").innerHTML = "";
+  if ($div_error) {
+    $div_error.innerHTML = "";
+  }
 
   f_enviar_al_ancla();
 }
 
-function ponerResultado(campo, valor, simbol) {
+function ponerResultado(campo: string, valor: string | number, simbol: string) {
   if (typeof valor == "number") valor = valor.toFixed(2);
 
   var elemento = document.getElementById(campo);
@@ -815,19 +735,8 @@ function f_enviar_al_ancla() {
   }
 }
 
-function checkNumPagas() {
-  var numero_pagas = document.getElementById("numero_pagas").value;
-  document.getElementById("numero_pagas_sueldo_neto").innerHTML = numero_pagas;
-  if (numero_pagas == "14") {
-    document.getElementById("fila_paga_extra").innerHTML =
-      '<tr><td class="col_one">Pagas extras (x2)</td><td class="normal"><div id="celda_paga_extra_2017">--</div></td></tr>';
-  } else {
-    document.getElementById("fila_paga_extra").innerHTML = "";
-  }
-}
-
 window.onload = () => {
   document
     .getElementById("calcular_nomina")
-    .addEventListener("click", f_calcular_nomina);
+    ?.addEventListener("click", f_calcular_nomina);
 };

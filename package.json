@@ -4,10 +4,11 @@
   "description": "Salary calculator",
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "serve": "vite preview"
   },
   "devDependencies": {
+    "typescript": "^4.4.4",
     "vite": "^2.6.10"
   }
 }
