@@ -2,122 +2,110 @@ export interface Props {
   annualGrossSalary: number;
 }
 
-function f_calcuar_cuota_mensual_pagar(bruto_anual: number) {
-  const min = 1052.9;
-  const max = 3751.2;
-
-  var cuota_mensual_pagar = 0;
-
-  if (bruto_anual / 12 < min) {
-    cuota_mensual_pagar = min * 0.0635;
-  } else if (bruto_anual / 12 > max) {
-    cuota_mensual_pagar = max * 0.0635;
-  } else {
-    cuota_mensual_pagar = (bruto_anual / 12) * 0.0635;
-  }
-
-  return cuota_mensual_pagar;
-}
-
-function f_calcular_reduccion_rendimiento_neto(rendimiento_neto: number) {
-  var reduccion_comun_todos = 2000;
-
-  if (rendimiento_neto < 11250) var reduccion_rendimiento_neto = 3700;
-  else if (rendimiento_neto >= 14450) var reduccion_rendimiento_neto = 0;
-  else
-    var reduccion_rendimiento_neto =
-      3700 - 1.15625 * (rendimiento_neto - 11250);
-
-  return reduccion_comun_todos + reduccion_rendimiento_neto;
-}
-
-function f_calcular_tramos_base_liquidable(base_liquidable: number) {
-  if (base_liquidable < 12450) {
-    var tramo_1 = base_liquidable * 0.19;
-  } else {
-    var tramo_1 = 12450 * 0.19;
-  }
-
-  if (base_liquidable < 12450) {
-    var tramo_2 = 0;
-  } else {
-    if (base_liquidable > 20200) {
-      var tramo_2 = (20200 - 12450) * 0.24;
-    } else {
-      var tramo_2 = (base_liquidable - 12450) * 0.24;
-    }
-  }
-
-  if (base_liquidable < 20200) {
-    var tramo_3 = 0;
-  } else {
-    if (base_liquidable > 35200) {
-      var tramo_3 = (35200 - 20200) * 0.3;
-    } else {
-      var tramo_3 = (base_liquidable - 20200) * 0.3;
-    }
-  }
-
-  if (base_liquidable < 35200) {
-    var tramo_4 = 0;
-  } else {
-    if (base_liquidable > 60000) {
-      var tramo_4 = (60000 - 35200) * 0.37;
-    } else {
-      var tramo_4 = (base_liquidable - 35200) * 0.37;
-    }
-  }
-
-  if (base_liquidable < 60000) {
-    var tramo_5 = 0;
-  } else {
-    var tramo_5 = (base_liquidable - 60000) * 0.45;
-  }
-
-  return tramo_1 + tramo_2 + tramo_3 + tramo_4 + tramo_5;
-}
+const FRACTION_DIGITS = 2;
 
 function grossToNetSalary({ annualGrossSalary }: Props) {
-  var num_decimales = 2;
+  const annualFee = calculateAnnualFee(annualGrossSalary);
+  const netIncome = annualGrossSalary - annualFee;
+  const netIncomeReduction = calculateNetIncomeReduction(netIncome);
+  const taxBase = annualGrossSalary - annualFee - netIncomeReduction;
 
-  var bruto_anual = annualGrossSalary;
-  var cuota_mensual_pagar = f_calcuar_cuota_mensual_pagar(bruto_anual);
-  var cuota_acumulado_ano = cuota_mensual_pagar * 12;
-  var rendimiento_neto = bruto_anual - cuota_acumulado_ano;
-  var reduccion_rendimiento_neto =
-    f_calcular_reduccion_rendimiento_neto(rendimiento_neto);
+  const withholding = calculateWithholding({
+    taxBase,
+    annualGrossSalary,
+  });
 
-  var base_imponible =
-    bruto_anual - cuota_acumulado_ano - reduccion_rendimiento_neto;
-
-  var cuota_retencion = Number(
-    (
-      f_calcular_tramos_base_liquidable(base_imponible) -
-      f_calcular_tramos_base_liquidable(5550)
-    ).toFixed(num_decimales)
-  );
-
-  var tipo_previo = (cuota_retencion / bruto_anual) * 100;
-  var importe_previo_retencion = Number(
-    ((tipo_previo / 100) * bruto_anual).toFixed(num_decimales)
-  );
-
-  var tipo_final_retencion_truncado = Number(
-    ((importe_previo_retencion / bruto_anual) * 100).toFixed(num_decimales)
-  );
-  if (tipo_final_retencion_truncado < 0) tipo_final_retencion_truncado = 0;
-  var importe_final_retencion =
-    (tipo_final_retencion_truncado / 100) * bruto_anual;
-
-  var seguridad_social = cuota_acumulado_ano;
-
-  var importe_retencion = importe_final_retencion;
-  var sueldo_neto = bruto_anual - seguridad_social - importe_retencion;
-  var sueldo_neto_12_pagas = sueldo_neto / 12;
+  const annualNetSalary =
+    annualGrossSalary - annualFee - withholding * annualGrossSalary;
 
   return {
-    monthlyNetSalary: Number(sueldo_neto_12_pagas.toFixed(1)),
+    monthlyNetSalary: Number((annualNetSalary / 12).toFixed(1)),
   };
+}
+
+function calculateWithholding({
+  taxBase,
+  annualGrossSalary,
+}: {
+  taxBase: number;
+  annualGrossSalary: number;
+}) {
+  const withholdingFee = calculateWithholdingFee(taxBase);
+
+  const previousType = (withholdingFee / annualGrossSalary) * 100;
+
+  const beforeWithholding = Number(
+    ((previousType / 100) * annualGrossSalary).toFixed(FRACTION_DIGITS)
+  );
+
+  return (
+    Number(
+      ((beforeWithholding / annualGrossSalary) * 100).toFixed(FRACTION_DIGITS)
+    ) / 100
+  );
+}
+
+function calculateAnnualFee(annualGrossSalary: number) {
+  const FEE = 0.0635;
+  const MONTHLY_RANGE = { min: 1052.9, max: 3751.2 };
+
+  const monthlyGrossSalary = annualGrossSalary / 12;
+  const monthlyGrossSalaryInRange =
+    monthlyGrossSalary < MONTHLY_RANGE.min
+      ? MONTHLY_RANGE.min
+      : monthlyGrossSalary > MONTHLY_RANGE.max
+      ? MONTHLY_RANGE.max
+      : monthlyGrossSalary;
+
+  return monthlyGrossSalaryInRange * 12 * FEE;
+}
+
+function calculateNetIncomeReduction(netIncome: number) {
+  const BASE_REDUCTION = 2000;
+  const MIN_REDUCTION = 3700;
+  const RANGE = { min: 11250, max: 14450 };
+
+  return (
+    BASE_REDUCTION +
+    (netIncome < RANGE.min
+      ? MIN_REDUCTION
+      : netIncome < RANGE.max
+      ? MIN_REDUCTION - 1.15625 * (netIncome - RANGE.min)
+      : 0)
+  );
+}
+
+function calculateTaxableBase(taxBase: number) {
+  const sections = [
+    taxBase < 12450 ? taxBase * 0.19 : 12450 * 0.19,
+    taxBase < 12450
+      ? 0
+      : taxBase > 20200
+      ? (20200 - 12450) * 0.24
+      : (taxBase - 12450) * 0.24,
+    taxBase < 20200
+      ? 0
+      : taxBase > 35200
+      ? (35200 - 20200) * 0.3
+      : (taxBase - 20200) * 0.3,
+    taxBase < 35200
+      ? 0
+      : taxBase > 60000
+      ? (60000 - 35200) * 0.37
+      : (taxBase - 35200) * 0.37,
+    taxBase < 60000 ? 0 : (taxBase - 60000) * 0.45,
+  ];
+
+  return sections.reduce((sum, section) => sum + section, 0);
+}
+
+function calculateWithholdingFee(taxBase: number) {
+  const withholdingFee =
+    calculateTaxableBase(taxBase) - calculateTaxableBase(5550);
+
+  return withholdingFee < 0
+    ? 0
+    : Number(withholdingFee.toFixed(FRACTION_DIGITS));
 }
 
 export default grossToNetSalary;
