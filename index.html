@@ -4,23 +4,50 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css"
-    />
+    <meta name="description" content="Salary calculator" />
+    <title>Salary calculator</title>
+    <link href="./src/index.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <main>
-      <section>
-        <h3>Salario neto mensual</h3>
-        <span id="monthly-net-salary" style="font-size: xx-large"></span>
+    <main
+      class="
+        p-4
+        flex flex-col
+        gap-8
+        h-full
+        w-full
+        justify-center
+        max-w-md
+        m-auto
+      "
+    >
+      <section class="bg-teal-900 p-6 rounded-2xl flex justify-between">
+        <div>
+          <h3 class="font-bold text-white">Salario neto</h3>
+          <span class="text-white opacity-60">/ mes</span>
+        </div>
+        <div class="text-3xl font-bold text-teal-400 flex">
+          <span id="monthly-net-salary">1929.8</span>
+          <span>€</span>
+        </div>
       </section>
       <form>
-        <fieldset>
-          <label for="annual-gross-salary">Salario bruto anual</label>
+        <fieldset class="grid gap-4">
+          <label class="text-gray-500 font-bold" for="annual-gross-salary"
+            >Salario bruto anual</label
+          >
           <input
             id="annual-gross-salary"
+            class="
+              bg-gray-100
+              p-2
+              text-teal-900
+              font-bold
+              text-xl
+              rounded-lg
+              w-full
+              text-right
+            "
             type="number"
             value="30000"
             min="0"
@@ -28,8 +55,12 @@
             step="100"
             required
           />
+          <label class="sr-only" for="annual-gross-salary-range"
+            >Rango de salario bruto anual</label
+          >
           <input
             id="annual-gross-salary-range"
+            class="w-full cursor-pointer"
             type="range"
             min="0"
             max="100000"
