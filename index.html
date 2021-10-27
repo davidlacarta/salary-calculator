@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="cupcake">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -11,56 +11,63 @@
   <body>
     <main
       class="
-        p-4
         flex flex-col
-        gap-8
-        h-full
-        w-full
         justify-center
+        w-full
+        h-full
         max-w-md
+        gap-12
+        p-4
         m-auto
       "
     >
-      <section class="bg-teal-900 p-6 rounded-2xl flex justify-between">
-        <div>
-          <h3 class="font-bold text-white">Salario neto</h3>
-          <span class="text-white opacity-60">/ mes</span>
-        </div>
-        <div class="text-3xl font-bold text-teal-400 flex">
-          <span id="monthly-net-salary">1929.8</span>
-          <span>€</span>
+      <section class="p-6 shadow-md rounded-xl bg-base-200">
+        <div class="flex items-center justify-between">
+          <h3 class="font-bold">Salario neto</h3>
+          <div class="flex flex-col items-end">
+            <div class="flex gap-1">
+              <strong id="monthly-net-salary" class="text-3xl">1930</strong>
+              <span class="text-3xl">€</span>
+            </div>
+            <small class="text-xs opacity-60">/mes</small>
+          </div>
         </div>
       </section>
       <form>
-        <fieldset class="grid gap-4">
-          <label class="text-gray-500 font-bold" for="annual-gross-salary"
+        <fieldset class="grid gap-3">
+          <label class="text-sm text-right" for="annual-gross-salary"
             >Salario bruto anual</label
           >
-          <input
-            id="annual-gross-salary"
-            class="
-              bg-gray-100
-              p-2
-              text-teal-900
-              font-bold
-              text-xl
-              rounded-lg
-              w-full
-              text-right
-            "
-            type="number"
-            value="30000"
-            min="0"
-            max="100000"
-            step="100"
-            required
-          />
+          <div class="relative">
+            <input
+              id="annual-gross-salary"
+              class="w-full text-xl text-right input input-bordered input-md"
+              type="number"
+              value="30000"
+              min="0"
+              max="100000"
+              step="100"
+              required
+            />
+            <span
+              class="
+                absolute
+                text-2xl
+                transform
+                translate-y-1/2
+                opacity-60
+                bottom-1/2
+                left-4
+              "
+              >€</span
+            >
+          </div>
           <label class="sr-only" for="annual-gross-salary-range"
             >Rango de salario bruto anual</label
           >
           <input
             id="annual-gross-salary-range"
-            class="w-full cursor-pointer"
+            class="range range-accent range-lg"
             type="range"
             min="0"
             max="100000"

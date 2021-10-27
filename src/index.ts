@@ -10,7 +10,7 @@ const $annualGrossSalaryRange = $i("annual-gross-salary-range");
 function updateMonthlyNetSalary() {
   const annualGrossSalary = Number($annualGrossSalary.value);
   const { monthlyNetSalary } = grossToNetSalary({ annualGrossSalary });
-  $monthlyNetSalary!.textContent = monthlyNetSalary.toString();
+  $monthlyNetSalary!.textContent = monthlyNetSalary.toFixed();
 }
 
 function syncValueOnInput(origin: HTMLInputElement, target: HTMLInputElement) {
