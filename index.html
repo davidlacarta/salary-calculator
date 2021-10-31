@@ -9,74 +9,98 @@
     <link href="./src/index.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <main
-      class="
-        flex flex-col
-        justify-center
-        w-full
-        h-full
-        max-w-md
-        gap-12
-        p-4
-        m-auto
-      "
-    >
-      <section class="p-6 shadow-md rounded-xl bg-base-200">
-        <div class="flex items-center justify-between">
-          <h3 class="font-bold">Salario neto</h3>
-          <div class="flex flex-col items-end">
-            <div class="flex gap-1">
-              <strong id="monthly-net-salary" class="text-3xl">1930</strong>
-              <span class="text-3xl">€</span>
-            </div>
-            <small class="text-xs opacity-60">/mes</small>
-          </div>
-        </div>
+    <main class="flex flex-col w-full h-full max-w-4xl m-auto text-neutral">
+      <section class="mx-8">
+        <h1 class="mb-8 text-3xl font-bold mt-14 md:mt-20 sm:text-4xl">
+          Calculadora<br class="sm:hidden" />
+          de sueldo neto
+        </h1>
+        <p class="my-4">
+          Calcula cuánto cobrarás como sueldo neto anual o mensual según la
+          cantidad que recibas en bruto.
+        </p>
       </section>
-      <form>
-        <fieldset class="grid gap-3">
-          <label class="text-sm text-right" for="annual-gross-salary"
-            >Salario bruto anual</label
-          >
-          <div class="relative">
+      <div
+        class="flex flex-col flex-grow md:grid md:grid-cols-2 md:auto-rows-min"
+      >
+        <form class="flex-grow p-8 overflow-auto">
+          <fieldset class="grid gap-3">
+            <label class="opacity-80" for="annual-gross-salary"
+              >Salario bruto anual</label
+            >
+            <div class="relative">
+              <input
+                id="annual-gross-salary"
+                class="w-full pl-10 text-xl input input-bordered input-md"
+                type="number"
+                value="30000"
+                min="0"
+                max="100000"
+                step="100"
+                required
+              />
+              <span
+                class="
+                  absolute
+                  text-2xl
+                  transform
+                  translate-y-1/2
+                  opacity-60
+                  bottom-1/2
+                  left-4
+                "
+                >€</span
+              >
+            </div>
+            <label class="sr-only" for="annual-gross-salary-range"
+              >Rango de salario bruto anual</label
+            >
             <input
-              id="annual-gross-salary"
-              class="w-full text-xl text-right input input-bordered input-md"
-              type="number"
-              value="30000"
+              id="annual-gross-salary-range"
+              class="range range-accent range-lg"
+              type="range"
               min="0"
               max="100000"
-              step="100"
+              value="30000"
+              step="1000"
               required
             />
-            <span
-              class="
-                absolute
-                text-2xl
-                transform
-                translate-y-1/2
-                opacity-60
-                bottom-1/2
-                left-4
-              "
-              >€</span
-            >
+          </fieldset>
+        </form>
+        <section
+          class="
+            sticky
+            p-4
+            m-4
+            text-center
+            shadow-md
+            sm:m-6 sm:p-8
+            bg-base-200
+            rounded-xl
+          "
+        >
+          <div class="grid grid-cols-2 gap-2">
+            <div class="flex flex-col items-end">
+              <h4 class="text-sm uppercase opacity-60">Sueldo neto</h4>
+              <strong
+                id="annual-net-salary"
+                class="text-2xl text-secondary sm:text-3xl"
+                >23.157 €</strong
+              >
+              <small class="text-xs opacity-60">/año</small>
+            </div>
+            <div class="flex flex-col items-end">
+              <h4 class="text-sm uppercase opacity-60">Sueldo neto</h4>
+              <strong
+                id="monthly-net-salary"
+                class="text-2xl text-primary sm:text-3xl"
+                >1930 €</strong
+              >
+              <small class="text-xs opacity-60">/mes</small>
+            </div>
           </div>
-          <label class="sr-only" for="annual-gross-salary-range"
-            >Rango de salario bruto anual</label
-          >
-          <input
-            id="annual-gross-salary-range"
-            class="range range-accent range-lg"
-            type="range"
-            min="0"
-            max="100000"
-            value="30000"
-            step="1000"
-            required
-          />
-        </fieldset>
-      </form>
+        </section>
+      </div>
     </main>
   </body>
   <script type="module" src="./src/index.ts"></script>

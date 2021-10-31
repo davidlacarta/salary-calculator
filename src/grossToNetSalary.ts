@@ -19,8 +19,13 @@ function grossToNetSalary({ annualGrossSalary }: Props) {
     annualGrossSalary - annualFee - withholding * annualGrossSalary;
 
   return {
-    monthlyNetSalary: Number((annualNetSalary / 12).toFixed(1)),
+    monthlyNetSalary: round(annualNetSalary / 12),
+    annualNetSalary: round(annualNetSalary),
   };
+}
+
+function round(amount: number) {
+  return Math.round(amount * 10) / 10;
 }
 
 function calculateWithholding({
