@@ -3,7 +3,7 @@ const daisyui = require("daisyui");
 
 module.exports = {
   mode: "jit",
-  purge: ["./*.html", "./src/**/*.ts"],
+  purge: ["./*.html", "./src/**/*.(ts|hbs)"],
   darkMode: "media",
   theme: {
     colors: {
@@ -14,9 +14,6 @@ module.exports = {
     extend: {
       gridTemplateRows: {
         main: "auto 1fr auto",
-      },
-      gridTemplateColumns: {
-        auto: "repeat(auto-fill, minmax(15rem, 1fr))",
       },
       margin: {
         "8-dynamic": "clamp(2rem, 5vw, 4rem)",
