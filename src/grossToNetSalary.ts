@@ -10,17 +10,19 @@ function grossToNetSalary({ annualGrossSalary }: Props) {
   const netIncomeReduction = calculateNetIncomeReduction(netIncome);
   const taxBase = annualGrossSalary - annualFee - netIncomeReduction;
 
-  const withholding = calculateWithholding({
-    taxBase,
-    annualGrossSalary,
-  });
+  const annualWithholding =
+    calculateWithholding({
+      taxBase,
+      annualGrossSalary,
+    }) * annualGrossSalary;
 
-  const annualNetSalary =
-    annualGrossSalary - annualFee - withholding * annualGrossSalary;
+  const annualNetSalary = annualGrossSalary - annualFee - annualWithholding;
 
   return {
     monthlyNetSalary: round(annualNetSalary / 12),
     annualNetSalary: round(annualNetSalary),
+    annualFee: round(annualFee),
+    annualWithholding: round(annualWithholding),
   };
 }
 
