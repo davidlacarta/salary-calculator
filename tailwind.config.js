@@ -19,7 +19,10 @@ module.exports = {
       gridTemplateRows: {
         main: "auto 1fr auto",
       },
-      margin: {
+      gridTemplateColumns: {
+        main: "auto 1fr",
+      },
+      padding: {
         "8-dynamic": "clamp(2rem, 5vw, 4rem)",
         "4-dynamic": "clamp(1rem, 4vw, 2rem)",
       },
