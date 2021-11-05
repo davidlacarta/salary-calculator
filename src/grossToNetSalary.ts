@@ -1,10 +1,14 @@
 export interface Props {
   annualGrossSalary: number;
+  annualPaymentsNumber?: 12 | 14;
 }
 
 const FRACTION_DIGITS = 2;
 
-function grossToNetSalary({ annualGrossSalary }: Props) {
+function grossToNetSalary({
+  annualGrossSalary,
+  annualPaymentsNumber = 12,
+}: Props) {
   const annualFee = calculateAnnualFee(annualGrossSalary);
   const netIncome = annualGrossSalary - annualFee;
   const netIncomeReduction = calculateNetIncomeReduction(netIncome);
@@ -16,13 +20,24 @@ function grossToNetSalary({ annualGrossSalary }: Props) {
       annualGrossSalary,
     }) * annualGrossSalary;
 
+  const monthlyNetSalaryExtra = {
+    12: 0,
+    14: (annualGrossSalary - annualWithholding) / 14,
+  }[annualPaymentsNumber];
+
   const annualNetSalary = annualGrossSalary - annualFee - annualWithholding;
 
+  const monthlyNetSalary = {
+    12: (annualGrossSalary - annualFee - annualWithholding) / 12,
+    14: (annualGrossSalary - annualWithholding) / 14 - annualFee / 12,
+  }[annualPaymentsNumber];
+
   return {
-    monthlyNetSalary: round(annualNetSalary / 12),
     annualNetSalary: round(annualNetSalary),
     annualFee: round(annualFee),
     annualWithholding: round(annualWithholding),
+    monthlyNetSalary: round(monthlyNetSalary),
+    monthlyNetSalaryExtra: round(monthlyNetSalaryExtra),
   };
 }
 

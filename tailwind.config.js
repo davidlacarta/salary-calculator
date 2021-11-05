@@ -1,9 +1,13 @@
 const colors = require("tailwindcss/colors");
-const daisyui = require("daisyui");
 
 module.exports = {
   mode: "jit",
-  purge: ["./*.html", "./src/**/*.(ts|hbs)"],
+  purge: {
+    content: ["./*.{html,js}", "./src/**/*.{html,js}"],
+    options: {
+      safelist: [/data-theme$/],
+    },
+  },
   darkMode: "media",
   theme: {
     colors: {
@@ -31,5 +35,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [daisyui],
+  plugins: [require("daisyui")],
 };

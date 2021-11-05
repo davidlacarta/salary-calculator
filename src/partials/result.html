@@ -1,8 +1,21 @@
 <div class="stat">
   <div class="stat-figure text-primary">{{> icons/coins }}</div>
   <div class="stat-title">Sueldo neto mensual</div>
-  <div id="monthly-net-salary" class="stat-value text-primary">
-    1930 €
+  <div class="flex items-center gap-2 text-primary">
+    <div id="monthly-net-salary" class="stat-value">1930 €</div>
+    <div
+      id="monthly-net-salary-extra-divider"
+      class="hidden m-0 divider divider-vertical"
+    ></div>
+    <div
+      id="monthly-net-salary-extra-wrapper"
+      class="flex-col hidden leading-5"
+    >
+      <div id="monthly-net-salary-extra" class="font-bold"></div>
+      <div class="w-full font-bold leading-3 badge badge-primary text-2xs">
+        x 2
+      </div>
+    </div>
   </div>
   <div class="stat-desc">
     <span id="monthly-withholding">412 €</span>
@@ -16,9 +29,7 @@
 <div class="stat">
   <div class="stat-figure text-secondary">{{> icons/bag-with-coins }}</div>
   <div class="stat-title">Sueldo neto anual</div>
-  <div id="annual-net-salary" class="stat-value text-secondary">
-    23.157 €
-  </div>
+  <div id="annual-net-salary" class="stat-value text-secondary">23.157 €</div>
   <div class="stat-desc">
     <span id="annual-withholding">4938 €</span>
     <h3 class="inline">IRPF</h3>
