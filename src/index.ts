@@ -1,4 +1,4 @@
-import grossToNetSalary from "./grossToNetSalary";
+import grossToNetSalary from "./lib/grossToNetSalary";
 
 const $ = (element: string) => document.getElementById(element);
 const $i = (element: string) => $(element) as HTMLInputElement;

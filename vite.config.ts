@@ -6,7 +6,7 @@ export default defineConfig({
   server: { open: "/" },
   plugins: [
     handlebars({
-      partialDirectory: resolve(__dirname, "src", "partials"),
+      partialDirectory: resolve(__dirname, "src"),
       reloadOnPartialChange: false,
     }),
   ],
