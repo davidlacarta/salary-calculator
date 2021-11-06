@@ -1,28 +1,24 @@
-import grossToNetSalary from "./lib/grossToNetSalary";
+import grossToNetSalary, { Result } from "./lib/grossToNetSalary";
+import { $, $i, $c, $dk, $idkv, $in, $inc, bindInputs } from "./lib/dom";
+import formatNumber from "./lib/formatNumber";
 
-const $ = (element: string) => document.getElementById(element);
-const $i = (element: string) => $(element) as HTMLInputElement;
-const $ic = (name: string) =>
-  document.querySelector(`input[name="${name}"]:checked`) as HTMLInputElement;
+window.addEventListener("input", update);
 
-const $annualGrossSalary = $i("annual-gross-salary");
+bindInputs($i("annual-gross-salary"), $i("annual-gross-salary-range"));
 
-const $annualNetSalary = $("annual-net-salary");
-const $monthlyNetSalary = $("monthly-net-salary");
-const $monthlyNetSalaryExtra = $("monthly-net-salary-extra");
-const $monthlyNetSalaryExtraDivider = $("monthly-net-salary-extra-divider");
-const $monthlyNetSalaryExtraWrapper = $("monthly-net-salary-extra-wrapper");
-const $annualGrossSalaryRange = $i("annual-gross-salary-range");
-const $annualWithholding = $i("annual-withholding");
-const $monthlyWithholding = $i("monthly-withholding");
-const $annualFee = $i("annual-fee");
-const $monthlyFee = $i("monthly-fee");
+Array.from($in("children")).forEach((child) =>
+  child.addEventListener("input", () => updateBabies(child))
+);
 
 function update() {
-  const annualGrossSalary = Number($annualGrossSalary.value);
-  const annualPaymentsNumber = Number($ic("annual-payments-number").value) as
-    | 12
-    | 14;
+  const {
+    annualGrossSalary,
+    annualPaymentsNumber,
+    childrenNumber,
+    babiesNumber,
+  } = getFormInputs();
+
+  console.log({ childrenNumber, babiesNumber });
 
   const {
     monthlyNetSalary,
@@ -35,40 +31,81 @@ function update() {
     annualPaymentsNumber,
   });
 
-  $monthlyNetSalary!.textContent = formatNumber(monthlyNetSalary);
-  $monthlyNetSalaryExtra!.textContent = monthlyNetSalaryExtra
+  updateResult({
+    monthlyNetSalary,
+    annualNetSalary,
+    annualWithholding,
+    annualFee,
+    monthlyNetSalaryExtra,
+  });
+}
+
+function getFormInputs() {
+  const annualGrossSalary = Number($i("annual-gross-salary").value);
+  const annualPaymentsNumber = Number($inc("annual-payments-number").value) as
+    | 12
+    | 14;
+  const childrenNumber = Number($inc("children").value) as number;
+  const babiesNumber = Number($inc("babies").value) as number;
+
+  return {
+    annualGrossSalary,
+    annualPaymentsNumber,
+    childrenNumber,
+    babiesNumber,
+  };
+}
+
+function updateResult({
+  monthlyNetSalary,
+  annualNetSalary,
+  annualWithholding,
+  annualFee,
+  monthlyNetSalaryExtra,
+}: Result) {
+  $("monthly-net-salary")!.textContent = formatNumber(monthlyNetSalary);
+  $("monthly-net-salary-extra")!.textContent = monthlyNetSalaryExtra
     ? formatNumber(monthlyNetSalaryExtra)
     : "";
-  $monthlyNetSalaryExtraDivider!.style.display = monthlyNetSalaryExtra
+  $("monthly-net-salary-extra-divider")!.style.display = monthlyNetSalaryExtra
     ? "flex"
     : "none";
-  $monthlyNetSalaryExtraWrapper!.style.display = monthlyNetSalaryExtra
+  $("monthly-net-salary-extra-wrapper")!.style.display = monthlyNetSalaryExtra
     ? "flex"
     : "none";
-  $annualNetSalary!.textContent = formatNumber(annualNetSalary);
-  $annualWithholding!.textContent = formatNumber(annualWithholding);
-  $monthlyWithholding!.textContent = formatNumber(annualWithholding / 12);
-  $annualFee!.textContent = formatNumber(annualFee);
-  $monthlyFee!.textContent = formatNumber(annualFee / 12);
+  $("annual-net-salary")!.textContent = formatNumber(annualNetSalary);
+  $i("annual-withholding")!.textContent = formatNumber(annualWithholding);
+  $i("monthly-withholding")!.textContent = formatNumber(annualWithholding / 12);
+  $i("annual-fee")!.textContent = formatNumber(annualFee);
+  $i("monthly-fee")!.textContent = formatNumber(annualFee / 12);
 }
 
-function formatNumber(amount: number) {
-  return amount.toLocaleString("es-ES", {
-    style: "currency",
-    currency: "EUR",
-    maximumFractionDigits: 0,
+function updateBabies(child: HTMLInputElement) {
+  const childrenNumber = Number(child.value);
+  const showBabies = childrenNumber > 0;
+
+  Array.from($c("babies")).forEach((baby) => {
+    if (showBabies) {
+      baby.classList.remove("hidden");
+    } else {
+      baby.classList.add("hidden");
+    }
+  });
+
+  Array.from($dk("index")).forEach((baby) => {
+    const babyNumber = Number(baby.dataset.index);
+    if (childrenNumber >= babyNumber) {
+      baby.classList.remove("hidden");
+      baby.removeAttribute("disabled");
+    } else {
+      baby.classList.add("hidden");
+      baby.setAttribute("disabled", "true");
+    }
+
+    const isBabyOverflow =
+      (baby as HTMLInputElement).checked && babyNumber > childrenNumber;
+    if (isBabyOverflow) {
+      $idkv("index", child.value).checked = true;
+    }
   });
 }
-
-function syncValueOnInput(origin: HTMLInputElement, target: HTMLInputElement) {
-  origin.addEventListener("input", () => {
-    target.value = origin.value;
-  });
-}
-
-syncValueOnInput($annualGrossSalary, $annualGrossSalaryRange);
-syncValueOnInput($annualGrossSalaryRange, $annualGrossSalary);
-
-window.addEventListener("input", update);
-
-update();

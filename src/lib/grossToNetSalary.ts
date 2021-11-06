@@ -3,12 +3,20 @@ export interface Props {
   annualPaymentsNumber?: 12 | 14;
 }
 
+export interface Result {
+  annualNetSalary: number;
+  annualFee: number;
+  annualWithholding: number;
+  monthlyNetSalary: number;
+  monthlyNetSalaryExtra: number;
+}
+
 const FRACTION_DIGITS = 2;
 
 function grossToNetSalary({
   annualGrossSalary,
   annualPaymentsNumber = 12,
-}: Props) {
+}: Props): Result {
   const annualFee = calculateAnnualFee(annualGrossSalary);
   const netIncome = annualGrossSalary - annualFee;
   const netIncomeReduction = calculateNetIncomeReduction(netIncome);

@@ -1,0 +1,33 @@
+.rating {
+  @apply flex flex-row-reverse items-center justify-end;
+}
+
+.rating input:not(.radio) {
+  @apply sr-only;
+}
+
+.rating label:not(.hidden) {
+  @apply flex flex-col items-center justify-center transition-all cursor-pointer opacity-30;
+}
+
+.rating input[type="radio"]:checked + label.zero {
+  @apply opacity-100;
+}
+
+.rating input[type="radio"]:hover ~ label:not(.zero),
+.rating input[type="radio"]:checked ~ label:not(.zero) {
+  @apply opacity-100;
+}
+
+.rating input[type="radio"]:hover + label:not(.zero),
+.rating input[type="radio"]:focus-visible + label:not(.zero) {
+  @apply opacity-100 text-accent;
+}
+
+.rating input[type="radio"]:hover + label.zero {
+  @apply opacity-100;
+}
+
+.rating input[type="radio"]:not(:checked):not(:hover) + label.zero {
+  @apply opacity-30;
+}
