@@ -12,15 +12,7 @@
 
     &[type="radio"] {
       &:hover ~ label:not([data-index="0"]),
-      &:checked ~ label:not([data-index="0"]) {
-        @apply opacity-100;
-      }
-
-      &:hover + label:not([data-index="0"]),
-      &:focus-visible + label:not([data-index="0"]) {
-        @apply opacity-100 text-accent;
-      }
-
+      &:checked ~ label:not([data-index="0"]),
       &:checked + label[data-index="0"],
       &:hover + label[data-index="0"] {
         @apply opacity-100;
