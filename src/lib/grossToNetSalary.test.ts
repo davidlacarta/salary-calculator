@@ -12,6 +12,36 @@ const cases = [
     },
   },
   {
+    input: { annualGrossSalary: 30000, childrenNumber: 2 },
+    expected: {
+      annualNetSalary: 23640,
+      annualFee: 1905,
+      annualWithholding: 4455,
+      monthlyNetSalary: 1970,
+      monthlyNetSalaryExtra: 0,
+    },
+  },
+  {
+    input: { annualGrossSalary: 30000, childrenNumber: 3 },
+    expected: {
+      annualNetSalary: 24201,
+      annualFee: 1905,
+      annualWithholding: 3894,
+      monthlyNetSalary: 2016.8,
+      monthlyNetSalaryExtra: 0,
+    },
+  },
+  {
+    input: { annualGrossSalary: 30000, childrenNumber: 3, babiesNumber: 2 },
+    expected: {
+      annualNetSalary: 24756,
+      annualFee: 1905,
+      annualWithholding: 3339,
+      monthlyNetSalary: 2063,
+      monthlyNetSalaryExtra: 0,
+    },
+  },
+  {
     input: { annualGrossSalary: 30000, annualPaymentsNumber: 14 as 14 },
     expected: {
       annualNetSalary: 23157,

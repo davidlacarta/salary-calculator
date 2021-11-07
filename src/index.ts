@@ -31,8 +31,6 @@ function update() {
     babiesNumber,
   } = getFormInputs();
 
-  console.log({ childrenNumber, babiesNumber });
-
   const {
     monthlyNetSalary,
     annualNetSalary,
@@ -42,6 +40,8 @@ function update() {
   } = grossToNetSalary({
     annualGrossSalary,
     annualPaymentsNumber,
+    childrenNumber,
+    babiesNumber,
   });
 
   updateResult({
