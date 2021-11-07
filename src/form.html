@@ -8,6 +8,7 @@
     >
     <input
       id="annual-gross-salary"
+      name="annual-gross-salary"
       class="w-full pl-10 text-xl input input-bordered input-md"
       type="number"
       value="30000"
@@ -26,6 +27,7 @@
   >
   <input
     id="annual-gross-salary-range"
+    name="annual-gross-salary-range"
     class="range range-accent range-lg"
     type="range"
     min="0"
@@ -82,14 +84,17 @@
       id="children0"
       class="mr-2 radio"
       value="0"
+      data-index="0"
       checked
     />
-    <label for="children0" class="mr-2 zero label-text">No tengo</label>
+    <label for="children0" class="mr-2 label-text" data-index="0"
+      >No tengo</label
+    >
   </div>
-  <legend class="hidden py-4 babies">
+  <legend class="hidden py-4" data-type="babies">
     De ellos, ¿cuántos son menores de 3 años?
   </legend>
-  <div class="hidden babies rating">
+  <div class="hidden rating" data-type="babies">
     <input
       type="radio"
       name="babies"
@@ -98,7 +103,9 @@
       disabled
       data-index="5"
     />
-    <label for="babies5" class="hidden" data-index="5">{{> icons/baby}}</label>
+    <label for="babies5" class="hidden" data-index="5" data-type="baby"
+      >{{> icons/baby}}</label
+    >
     <input
       type="radio"
       name="babies"
@@ -107,7 +114,9 @@
       disabled
       data-index="4"
     />
-    <label for="babies4" class="hidden" data-index="4">{{> icons/baby}}</label>
+    <label for="babies4" class="hidden" data-index="4" data-type="baby"
+      >{{> icons/baby}}</label
+    >
     <input
       type="radio"
       name="babies"
@@ -116,7 +125,9 @@
       disabled
       data-index="3"
     />
-    <label for="babies3" class="hidden" data-index="3">{{> icons/baby}}</label>
+    <label for="babies3" class="hidden" data-index="3" data-type="baby"
+      >{{> icons/baby}}</label
+    >
     <input
       type="radio"
       name="babies"
@@ -125,7 +136,9 @@
       disabled
       data-index="2"
     />
-    <label for="babies2" class="hidden" data-index="2">{{> icons/baby}}</label>
+    <label for="babies2" class="hidden" data-index="2" data-type="baby"
+      >{{> icons/baby}}</label
+    >
     <input
       type="radio"
       name="babies"
@@ -134,7 +147,9 @@
       disabled
       data-index="1"
     />
-    <label for="babies1" class="hidden" data-index="1">{{> icons/baby}}</label>
+    <label for="babies1" class="hidden" data-index="1" data-type="baby"
+      >{{> icons/baby}}</label
+    >
     <input
       type="radio"
       tabindex="0"
@@ -148,8 +163,9 @@
     />
     <label
       for="babies0"
-      class="mr-2 zero label-text min-w-[56px] hidden"
+      class="mr-2 label-text min-w-[56px] hidden"
       data-index="0"
+      data-type="baby"
       >Ninguno</label
     >
   </div>

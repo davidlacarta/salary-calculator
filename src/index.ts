@@ -1,12 +1,25 @@
 import grossToNetSalary, { Result } from "./lib/grossToNetSalary";
-import { $, $i, $c, $dk, $idkv, $in, $inc, bindInputs } from "./lib/dom";
+import {
+  $,
+  $input,
+  $$,
+  $$input,
+  hide,
+  show,
+  enable,
+  disable,
+  bindInputs,
+} from "./lib/dom";
 import formatNumber from "./lib/formatNumber";
 
 window.addEventListener("input", update);
 
-bindInputs($i("annual-gross-salary"), $i("annual-gross-salary-range"));
+bindInputs(
+  $input("[name='annual-gross-salary']"),
+  $input("[name='annual-gross-salary-range']")
+);
 
-Array.from($in("children")).forEach((child) =>
+Array.from($$input("[name='children']")).forEach((child) =>
   child.addEventListener("input", () => updateBabies(child))
 );
 
@@ -41,12 +54,18 @@ function update() {
 }
 
 function getFormInputs() {
-  const annualGrossSalary = Number($i("annual-gross-salary").value);
-  const annualPaymentsNumber = Number($inc("annual-payments-number").value) as
-    | 12
-    | 14;
-  const childrenNumber = Number($inc("children").value) as number;
-  const babiesNumber = Number($inc("babies").value) as number;
+  const annualGrossSalary = Number(
+    $input("[name='annual-gross-salary']").value
+  );
+  const annualPaymentsNumber = Number(
+    $input("[name='annual-payments-number']:checked").value
+  ) as 12 | 14;
+  const childrenNumber = Number(
+    $input("[name='children']:checked").value
+  ) as number;
+  const babiesNumber = Number(
+    $input("[name='babies']:checked").value
+  ) as number;
 
   return {
     annualGrossSalary,
@@ -63,49 +82,55 @@ function updateResult({
   annualFee,
   monthlyNetSalaryExtra,
 }: Result) {
-  $("monthly-net-salary")!.textContent = formatNumber(monthlyNetSalary);
-  $("monthly-net-salary-extra")!.textContent = monthlyNetSalaryExtra
+  $("#monthly-net-salary")!.textContent = formatNumber(monthlyNetSalary);
+  $("#monthly-net-salary-extra")!.textContent = monthlyNetSalaryExtra
     ? formatNumber(monthlyNetSalaryExtra)
     : "";
-  $("monthly-net-salary-extra-divider")!.style.display = monthlyNetSalaryExtra
+  $("#monthly-net-salary-extra-divider")!.style.display = monthlyNetSalaryExtra
     ? "flex"
     : "none";
-  $("monthly-net-salary-extra-wrapper")!.style.display = monthlyNetSalaryExtra
+  $("#monthly-net-salary-extra-wrapper")!.style.display = monthlyNetSalaryExtra
     ? "flex"
     : "none";
-  $("annual-net-salary")!.textContent = formatNumber(annualNetSalary);
-  $i("annual-withholding")!.textContent = formatNumber(annualWithholding);
-  $i("monthly-withholding")!.textContent = formatNumber(annualWithholding / 12);
-  $i("annual-fee")!.textContent = formatNumber(annualFee);
-  $i("monthly-fee")!.textContent = formatNumber(annualFee / 12);
+  $("#annual-net-salary")!.textContent = formatNumber(annualNetSalary);
+  $("#annual-withholding")!.textContent = formatNumber(annualWithholding);
+  $("#monthly-withholding")!.textContent = formatNumber(annualWithholding / 12);
+  $("#annual-fee")!.textContent = formatNumber(annualFee);
+  $("#monthly-fee")!.textContent = formatNumber(annualFee / 12);
 }
 
 function updateBabies(child: HTMLInputElement) {
   const childrenNumber = Number(child.value);
-  const showBabies = childrenNumber > 0;
 
-  Array.from($c("babies")).forEach((baby) => {
+  const showBabies = childrenNumber > 0;
+  Array.from($$("[data-type='babies']")).forEach((babiesWrapper) => {
     if (showBabies) {
-      baby.classList.remove("hidden");
+      show(babiesWrapper);
     } else {
-      baby.classList.add("hidden");
+      hide(babiesWrapper);
     }
   });
 
-  Array.from($dk("index")).forEach((baby) => {
-    const babyNumber = Number(baby.dataset.index);
+  Array.from($$("[data-index][data-type='baby']")).forEach((babyLabel) => {
+    const babyNumber = Number(babyLabel.dataset.index);
     if (childrenNumber >= babyNumber) {
-      baby.classList.remove("hidden");
-      baby.removeAttribute("disabled");
+      show(babyLabel);
     } else {
-      baby.classList.add("hidden");
-      baby.setAttribute("disabled", "true");
+      hide(babyLabel);
+    }
+  });
+
+  Array.from($$input("[data-index][name='babies']")).forEach((babyInput) => {
+    const babyNumber = Number(babyInput.dataset.index);
+    if (childrenNumber >= babyNumber) {
+      enable(babyInput);
+    } else {
+      disable(babyInput);
     }
 
-    const isBabyOverflow =
-      (baby as HTMLInputElement).checked && babyNumber > childrenNumber;
+    const isBabyOverflow = babyInput.checked && babyNumber > childrenNumber;
     if (isBabyOverflow) {
-      $idkv("index", child.value).checked = true;
+      $input(`[data-index='${child.value}'][name='babies']`).checked = true;
     }
   });
 }

@@ -1,33 +1,34 @@
 .rating {
   @apply flex flex-row-reverse items-center justify-end;
-}
 
-.rating input:not(.radio) {
-  @apply sr-only;
-}
+  label:not(.hidden) {
+    @apply flex flex-col items-center justify-center transition-all cursor-pointer opacity-30;
+  }
 
-.rating label:not(.hidden) {
-  @apply flex flex-col items-center justify-center transition-all cursor-pointer opacity-30;
-}
+  input {
+    &:not([data-index="0"]) {
+      @apply sr-only;
+    }
 
-.rating input[type="radio"]:checked + label.zero {
-  @apply opacity-100;
-}
+    &[type="radio"] {
+      &:hover ~ label:not([data-index="0"]),
+      &:checked ~ label:not([data-index="0"]) {
+        @apply opacity-100;
+      }
 
-.rating input[type="radio"]:hover ~ label:not(.zero),
-.rating input[type="radio"]:checked ~ label:not(.zero) {
-  @apply opacity-100;
-}
+      &:hover + label:not([data-index="0"]),
+      &:focus-visible + label:not([data-index="0"]) {
+        @apply opacity-100 text-accent;
+      }
 
-.rating input[type="radio"]:hover + label:not(.zero),
-.rating input[type="radio"]:focus-visible + label:not(.zero) {
-  @apply opacity-100 text-accent;
-}
+      &:checked + label[data-index="0"],
+      &:hover + label[data-index="0"] {
+        @apply opacity-100;
+      }
 
-.rating input[type="radio"]:hover + label.zero {
-  @apply opacity-100;
-}
-
-.rating input[type="radio"]:not(:checked):not(:hover) + label.zero {
-  @apply opacity-30;
+      &:not(:checked):not(:hover) + label[data-index="0"] {
+        @apply opacity-30;
+      }
+    }
+  }
 }

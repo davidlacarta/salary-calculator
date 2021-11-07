@@ -1,25 +1,24 @@
-export const $ = (element: string) => document.getElementById(element);
+export const $ = (query: string) =>
+  document.querySelector(query) as HTMLElement;
 
-export const $i = (element: string) => $(element) as HTMLInputElement;
+export const $input = (query: string) => $(`input${query}`) as HTMLInputElement;
 
-export const $c = (className: string) =>
-  document.querySelectorAll(
-    `[class~="${className}"]`
-  ) as NodeListOf<HTMLElement>;
+export const $$ = (element: string) =>
+  document.querySelectorAll(element) as NodeListOf<HTMLElement>;
 
-export const $dk = (key: string) =>
-  document.querySelectorAll(`[data-${key}]`) as NodeListOf<HTMLElement>;
+export const $$input = (query: string) =>
+  $$(`input${query}`) as NodeListOf<HTMLInputElement>;
 
-export const $idkv = (key: string, value: string) =>
-  document.querySelector(`input[data-${key}="${value}"]`) as HTMLInputElement;
+export const hide = (element: HTMLElement) => element.classList.add("hidden");
 
-export const $in = (name: string) =>
-  document.querySelectorAll(
-    `input[name="${name}"]`
-  ) as NodeListOf<HTMLInputElement>;
+export const show = (element: HTMLElement) =>
+  element.classList.remove("hidden");
 
-export const $inc = (name: string) =>
-  document.querySelector(`input[name="${name}"]:checked`) as HTMLInputElement;
+export const disable = (element: HTMLElement) =>
+  element.setAttribute("disabled", "true");
+
+export const enable = (element: HTMLElement) =>
+  element.removeAttribute("disabled");
 
 export function bindInputs(origin: HTMLInputElement, target: HTMLInputElement) {
   syncValueOnInput(origin, target);
