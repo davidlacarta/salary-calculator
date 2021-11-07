@@ -1,6 +1,16 @@
 export interface Props {
   annualGrossSalary: number;
   annualPaymentsNumber?: 12 | 14;
+  childrenNumber?: number;
+  babiesNumber?: number;
+}
+
+export interface Result {
+  annualNetSalary: number;
+  annualFee: number;
+  annualWithholding: number;
+  monthlyNetSalary: number;
+  monthlyNetSalaryExtra: number;
 }
 
 const FRACTION_DIGITS = 2;
@@ -8,16 +18,27 @@ const FRACTION_DIGITS = 2;
 function grossToNetSalary({
   annualGrossSalary,
   annualPaymentsNumber = 12,
-}: Props) {
+  childrenNumber = 0,
+  babiesNumber = 0,
+}: Props): Result {
+  if (babiesNumber > childrenNumber) {
+    throw Error("Invalid babies number: " + babiesNumber);
+  }
+
   const annualFee = calculateAnnualFee(annualGrossSalary);
   const netIncome = annualGrossSalary - annualFee;
-  const netIncomeReduction = calculateNetIncomeReduction(netIncome);
+  const netIncomeReduction = calculateNetIncomeReduction(
+    netIncome,
+    childrenNumber
+  );
   const taxBase = annualGrossSalary - annualFee - netIncomeReduction;
 
   const annualWithholding =
     calculateWithholding({
       taxBase,
       annualGrossSalary,
+      childrenNumber,
+      babiesNumber,
     }) * annualGrossSalary;
 
   const monthlyNetSalaryExtra = {
@@ -48,11 +69,19 @@ function round(amount: number) {
 function calculateWithholding({
   taxBase,
   annualGrossSalary,
+  childrenNumber,
+  babiesNumber,
 }: {
   taxBase: number;
   annualGrossSalary: number;
+  childrenNumber: number;
+  babiesNumber: number;
 }) {
-  const withholdingFee = calculateWithholdingFee(taxBase);
+  const withholdingFee = calculateWithholdingFee({
+    taxBase,
+    childrenNumber,
+    babiesNumber,
+  });
 
   const previousType = (withholdingFee / annualGrossSalary) * 100;
 
@@ -82,10 +111,14 @@ function calculateAnnualFee(annualGrossSalary: number) {
   return monthlyGrossSalaryInRange * 12 * FEE;
 }
 
-function calculateNetIncomeReduction(netIncome: number) {
+function calculateNetIncomeReduction(
+  netIncome: number,
+  childrenNumber: number
+) {
   const BASE_REDUCTION = 2000;
   const MIN_REDUCTION = 3700;
   const RANGE = { min: 11250, max: 14450 };
+  const childrenBonus = childrenNumber > 2 ? 600 : 0;
 
   return (
     BASE_REDUCTION +
@@ -93,7 +126,8 @@ function calculateNetIncomeReduction(netIncome: number) {
       ? MIN_REDUCTION
       : netIncome < RANGE.max
       ? MIN_REDUCTION - 1.15625 * (netIncome - RANGE.min)
-      : 0)
+      : 0) +
+    childrenBonus
   );
 }
 
@@ -121,13 +155,52 @@ function calculateTaxableBase(taxBase: number) {
   return sections.reduce((sum, section) => sum + section, 0);
 }
 
-function calculateWithholdingFee(taxBase: number) {
+function calculateWithholdingFee({
+  taxBase,
+  childrenNumber,
+  babiesNumber,
+}: {
+  taxBase: number;
+  childrenNumber: number;
+  babiesNumber: number;
+}) {
+  const childrenBonus = calculateChildrenBonus(childrenNumber) / 2;
+  const babiesBonus = calculateBabiesBonus(babiesNumber) / 2;
+  const bonus = 5550 + childrenBonus + babiesBonus;
   const withholdingFee =
-    calculateTaxableBase(taxBase) - calculateTaxableBase(5550);
+    calculateTaxableBase(taxBase) - calculateTaxableBase(bonus);
 
   return withholdingFee < 0
     ? 0
     : Number(withholdingFee.toFixed(FRACTION_DIGITS));
+}
+
+function calculateChildrenBonus(childrenNumber: number) {
+  if (childrenNumber === 0) {
+    return 0;
+  }
+
+  if (childrenNumber === 1) {
+    return 2400;
+  }
+
+  if (childrenNumber === 2) {
+    return 2400 + 2700;
+  }
+
+  if (childrenNumber === 3) {
+    return 2400 + 2700 + 4000;
+  }
+
+  if (childrenNumber === 4) {
+    return 2400 + 2700 + 4000 + 4500;
+  }
+
+  return 2400 + 2700 + 4000 + 4500 + 4500 * (childrenNumber - 4);
+}
+
+function calculateBabiesBonus(babiesNumber: number) {
+  return babiesNumber * 2800;
 }
 
 export default grossToNetSalary;

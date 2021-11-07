@@ -1,5 +1,5 @@
 <fieldset>
-  <legend class="block mb-2 font-bold opacity-80" for="annual-gross-salary">
+  <legend class="block mb-2" for="annual-gross-salary">
     Salario bruto anual
   </legend>
   <div class="relative mb-4">
@@ -8,6 +8,7 @@
     >
     <input
       id="annual-gross-salary"
+      name="annual-gross-salary"
       class="w-full pl-10 text-xl input input-bordered input-md"
       type="number"
       value="30000"
@@ -26,6 +27,7 @@
   >
   <input
     id="annual-gross-salary-range"
+    name="annual-gross-salary-range"
     class="range range-accent range-lg"
     type="range"
     min="0"
@@ -36,7 +38,7 @@
   />
 </fieldset>
 <fieldset>
-  <div class="grid grid-cols-2 card bordered">
+  <div class="flex flex-row gap-2 card bordered">
     <div class="form-control">
       <label class="justify-start gap-2 cursor-pointer label">
         <input
@@ -60,5 +62,111 @@
         <span class="label-text">14 pagas</span>
       </label>
     </div>
+  </div>
+</fieldset>
+<fieldset>
+  <legend class="pb-4">Número de hijos menores de 25 años a cargo</legend>
+  <div class="rating">
+    <input type="radio" name="children" id="children5" value="5" />
+    <label for="children5">{{> icons/child}}</label>
+    <input type="radio" name="children" id="children4" value="4" />
+    <label for="children4">{{> icons/child}}</label>
+    <input type="radio" name="children" id="children3" value="3" />
+    <label for="children3">{{> icons/child}}</label>
+    <input type="radio" name="children" id="children2" value="2" />
+    <label for="children2">{{> icons/child}}</label>
+    <input type="radio" name="children" id="children1" value="1" />
+    <label for="children1">{{> icons/child}}</label>
+    <input
+      type="radio"
+      tabindex="0"
+      name="children"
+      id="children0"
+      class="mr-2 radio"
+      value="0"
+      data-index="0"
+      checked
+    />
+    <label for="children0" class="mr-2 label-text" data-index="0"
+      >No tengo</label
+    >
+  </div>
+  <legend class="hidden py-4" data-type="babies">
+    De ellos, ¿cuántos son menores de 3 años?
+  </legend>
+  <div class="hidden rating" data-type="babies">
+    <input
+      type="radio"
+      name="babies"
+      id="babies5"
+      value="5"
+      disabled
+      data-index="5"
+    />
+    <label for="babies5" class="hidden" data-index="5" data-type="baby"
+      >{{> icons/baby}}</label
+    >
+    <input
+      type="radio"
+      name="babies"
+      id="babies4"
+      value="4"
+      disabled
+      data-index="4"
+    />
+    <label for="babies4" class="hidden" data-index="4" data-type="baby"
+      >{{> icons/baby}}</label
+    >
+    <input
+      type="radio"
+      name="babies"
+      id="babies3"
+      value="3"
+      disabled
+      data-index="3"
+    />
+    <label for="babies3" class="hidden" data-index="3" data-type="baby"
+      >{{> icons/baby}}</label
+    >
+    <input
+      type="radio"
+      name="babies"
+      id="babies2"
+      value="2"
+      disabled
+      data-index="2"
+    />
+    <label for="babies2" class="hidden" data-index="2" data-type="baby"
+      >{{> icons/baby}}</label
+    >
+    <input
+      type="radio"
+      name="babies"
+      id="babies1"
+      value="1"
+      disabled
+      data-index="1"
+    />
+    <label for="babies1" class="hidden" data-index="1" data-type="baby"
+      >{{> icons/baby}}</label
+    >
+    <input
+      type="radio"
+      tabindex="0"
+      name="babies"
+      id="babies0"
+      class="mr-2 radio"
+      value="0"
+      checked
+      disabled
+      data-index="0"
+    />
+    <label
+      for="babies0"
+      class="mr-2 label-text min-w-[56px] hidden"
+      data-index="0"
+      data-type="baby"
+      >Ninguno</label
+    >
   </div>
 </fieldset>
