@@ -1,7 +1,5 @@
 <fieldset>
-  <legend class="block mb-2" for="annual-gross-salary">
-    Salario bruto anual
-  </legend>
+  <legend class="block mb-2">Salario bruto anual</legend>
   <div class="relative mb-4">
     <label class="sr-only" for="annual-gross-salary"
       >Rango de salario bruto anual</label
@@ -12,13 +10,21 @@
       class="w-full pl-10 text-xl input input-bordered input-md"
       type="number"
       value="30000"
-      min="0"
+      min="1000"
       max="100000"
       step="100"
       required
     />
     <span
-      class="absolute text-xl transform translate-y-1/2  opacity-60 bottom-1/2 left-4"
+      class="
+        absolute
+        text-xl
+        transform
+        translate-y-1/2
+        opacity-60
+        bottom-1/2
+        left-4
+      "
       >€</span
     >
   </div>
@@ -30,11 +36,10 @@
     name="annual-gross-salary-range"
     class="range range-accent range-lg"
     type="range"
-    min="0"
+    min="1000"
     max="100000"
     value="30000"
     step="1000"
-    required
   />
 </fieldset>
 <fieldset>
@@ -65,7 +70,7 @@
   </div>
 </fieldset>
 <fieldset>
-  <legend class="pb-4">Número de hijos menores de 25 años a cargo</legend>
+  <h6 class="pb-4">Número de hijos menores de 25 años a cargo</h6>
   <div class="rating">
     <input type="radio" name="children" id="children5" value="5" />
     <label for="children5"
@@ -101,9 +106,9 @@
       >No tengo</label
     >
   </div>
-  <legend class="hidden py-4" data-type="babies">
+  <h6 class="hidden py-4" data-type="babies">
     De ellos, ¿cuántos son menores de 3 años?
-  </legend>
+  </h6>
   <div class="hidden rating" data-type="babies">
     <input
       type="radio"
