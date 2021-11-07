@@ -12,6 +12,10 @@ import {
 } from "./lib/dom";
 import formatNumber from "./lib/formatNumber";
 
+$("[name='theme']").addEventListener("change", (event: any) => {
+  $("html").dataset.theme = event.target.value;
+});
+
 window.addEventListener("input", update);
 
 bindInputs(
