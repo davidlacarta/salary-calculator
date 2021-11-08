@@ -1,4 +1,4 @@
-import { $ } from "../../lib/dom";
+import { $, $$ } from "../../lib/dom";
 import { Result } from "../../lib/grossToNetSalary";
 
 export function updateResult({
@@ -9,15 +9,13 @@ export function updateResult({
   monthlyNetSalaryExtra,
 }: Result) {
   $("#monthly-net-salary")!.textContent = formatNumber(monthlyNetSalary);
-  $("#monthly-net-salary-extra")!.textContent = monthlyNetSalaryExtra
-    ? formatNumber(monthlyNetSalaryExtra)
-    : "";
-  $("#monthly-net-salary-extra-divider")!.style.display = monthlyNetSalaryExtra
-    ? "flex"
-    : "none";
-  $("#monthly-net-salary-extra-wrapper")!.style.display = monthlyNetSalaryExtra
-    ? "flex"
-    : "none";
+  $("#monthly-net-salary-extra")!.textContent = formatNumber(
+    monthlyNetSalaryExtra
+  );
+  Array.from($$("[data-type='extra']")).forEach(
+    (element) =>
+      (element!.style.display = monthlyNetSalaryExtra ? "flex" : "none")
+  );
   $("#annual-net-salary")!.textContent = formatNumber(annualNetSalary);
   $("#annual-withholding")!.textContent = formatNumber(annualWithholding);
   $("#monthly-withholding")!.textContent = formatNumber(annualWithholding / 12);
@@ -25,10 +23,12 @@ export function updateResult({
   $("#monthly-fee")!.textContent = formatNumber(annualFee / 12);
 }
 
-function formatNumber(amount: number) {
-  return amount.toLocaleString("es-ES", {
-    style: "currency",
-    currency: "EUR",
-    maximumFractionDigits: 0,
-  });
+function formatNumber(amount?: number) {
+  return (
+    amount?.toLocaleString("es-ES", {
+      style: "currency",
+      currency: "EUR",
+      maximumFractionDigits: 0,
+    }) ?? ""
+  );
 }

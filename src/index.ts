@@ -1,10 +1,12 @@
-import grossToNetSalary from "./lib/grossToNetSalary";
-import { getFormInputs } from "./components/form";
+import Header from "./components/header/index";
+import Form, { getFormInputs } from "./components/form";
 import { updateResult } from "./components/result";
+import grossToNetSalary from "./lib/grossToNetSalary";
 
-window.addEventListener("input", update);
+Header.init();
+Form.init();
 
-function update() {
+window.addEventListener("input", () => {
   const {
     annualGrossSalary,
     annualPaymentsNumber,
@@ -32,4 +34,4 @@ function update() {
     annualFee,
     monthlyNetSalaryExtra,
   });
-}
+});

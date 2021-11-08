@@ -2,44 +2,38 @@
   <div class="stat-figure text-primary">
     {{> components/result/icons/coins }}
   </div>
-  <h2 class="stat-title">Sueldo neto mensual</h2>
+  <h2 class="stat-title opacity-60">Sueldo neto mensual</h2>
   <div class="flex items-center gap-2 text-primary">
     <div id="monthly-net-salary" class="stat-value">1930 €</div>
-    <div
-      id="monthly-net-salary-extra-divider"
-      class="hidden m-0 divider divider-vertical"
-    ></div>
-    <div
-      id="monthly-net-salary-extra-wrapper"
-      class="flex-col hidden leading-5"
-    >
+    <div class="hidden m-0 divider divider-vertical" data-type="extra"></div>
+    <div class="flex-col hidden leading-5" data-type="extra">
       <div id="monthly-net-salary-extra" class="font-bold"></div>
       <div class="w-full font-bold leading-3 badge badge-primary text-2xs">
         x 2
       </div>
     </div>
   </div>
-  <div class="stat-desc">
+  <div class="stat-desc opacity-60">
     <span id="monthly-withholding">412 €</span>
-    <h3 class="inline">IRPF</h3>
+    <span>IRPF</span>
   </div>
-  <div class="stat-desc">
+  <div class="stat-desc opacity-60">
     <span id="monthly-fee">159 €</span>
-    <h3 class="inline">Seguridad Social</h3>
+    <span>Seguridad Social</span>
   </div>
 </div>
 <div class="stat">
   <div class="stat-figure text-secondary">
     {{> components/result/icons/bag-with-coins }}
   </div>
-  <div class="stat-title">Sueldo neto anual</div>
+  <h2 class="stat-title opacity-60">Sueldo neto anual</h2>
   <div id="annual-net-salary" class="stat-value text-secondary">23.157 €</div>
-  <div class="stat-desc">
+  <div class="stat-desc opacity-60">
     <span id="annual-withholding">4938 €</span>
-    <h3 class="inline">IRPF</h3>
+    <span>IRPF</span>
   </div>
-  <div class="stat-desc">
+  <div class="stat-desc opacity-60">
     <span id="annual-fee">1905 €</span>
-    <h3 class="inline">Seguridad Social</h3>
+    <span>Seguridad Social</span>
   </div>
 </div>

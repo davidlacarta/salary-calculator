@@ -9,14 +9,18 @@ import {
   show,
 } from "../../lib/dom";
 
-bindInputs(
-  $input("[name='annual-gross-salary']"),
-  $input("[name='annual-gross-salary-range']")
-);
+export default {
+  init: () => {
+    bindInputs(
+      $input("[name='annual-gross-salary']"),
+      $input("[name='annual-gross-salary-range']")
+    );
 
-Array.from($$input("[name='children']")).forEach((child) =>
-  child.addEventListener("input", () => updateBabies(child))
-);
+    Array.from($$input("[name='children']")).forEach((child) =>
+      child.addEventListener("input", () => updateBabiesInput(child))
+    );
+  },
+};
 
 export function getFormInputs() {
   const annualGrossSalary = Number(
@@ -40,7 +44,7 @@ export function getFormInputs() {
   };
 }
 
-export function updateBabies(child: HTMLInputElement) {
+export function updateBabiesInput(child: HTMLInputElement) {
   const childrenNumber = Number(child.value);
 
   const showBabies = childrenNumber > 0;

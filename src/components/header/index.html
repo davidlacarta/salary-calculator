@@ -1,6 +1,16 @@
-<h1 class="mb-4 font-bold text-4xl-dynamic leading-12-dynamic">
-  Calculadora de sueldo neto
-</h1>
+<div class="flex items-center justify-between mb-4">
+  <h1 class="font-bold text-4xl-dynamic leading-12-dynamic">
+    Calculadora de sueldo <span class="hidden sm:inline">neto</span>
+  </h1>
+  <label class="sr-only" for="theme">Tema claro</label>
+  <input
+    type="checkbox"
+    id="theme"
+    name="theme"
+    checked="checked"
+    class="toggle toggle-accent"
+  />
+</div>
 <p>
   Calcula cuánto cobrarás como sueldo neto anual o mensual según la cantidad que
   recibas en bruto.
