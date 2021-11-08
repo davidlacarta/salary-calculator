@@ -4,9 +4,6 @@ module.exports = {
   mode: "jit",
   purge: {
     content: ["./*.{html,js}", "./src/**/*.{html,js}"],
-    options: {
-      safelist: [/data-theme$/],
-    },
   },
   darkMode: "media",
   theme: {
@@ -39,4 +36,8 @@ module.exports = {
     extend: {},
   },
   plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["cupcake"],
+    logs: false,
+  },
 };
