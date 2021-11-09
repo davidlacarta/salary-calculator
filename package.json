@@ -6,11 +6,16 @@
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "test": "jest"
+    "test": "jest",
+    "test:e2e": "playwright test",
+    "test:e2e-concurrently": "concurrently -s first -k \"npm:serve\" \"npm:test:e2e\"",
+    "test:e2e-build": "npm run build && npm run test:e2e-concurrently"
   },
   "devDependencies": {
+    "@playwright/test": "^1.16.3",
     "@types/jest": "^27.0.2",
     "autoprefixer": "^10.3.7",
+    "concurrently": "^6.3.0",
     "daisyui": "^1.16.0",
     "jest": "^27.3.1",
     "postcss": "^8.3.11",
