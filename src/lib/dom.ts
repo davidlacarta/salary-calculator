@@ -1,13 +1,12 @@
-export const $ = (query: string) =>
-  document.querySelector(query) as HTMLElement;
+export const $ = (query: string) => <HTMLElement>document.querySelector(query);
 
-export const $input = (query: string) => $(`input${query}`) as HTMLInputElement;
+export const $input = (query: string) => <HTMLInputElement>$(`input${query}`);
 
 export const $$ = (element: string) =>
-  document.querySelectorAll(element) as NodeListOf<HTMLElement>;
+  <NodeListOf<HTMLElement>>document.querySelectorAll(element);
 
 export const $$input = (query: string) =>
-  $$(`input${query}`) as NodeListOf<HTMLInputElement>;
+  <NodeListOf<HTMLInputElement>>$$(`input${query}`);
 
 export const hide = (element: HTMLElement) => element.classList.add("hidden");
 

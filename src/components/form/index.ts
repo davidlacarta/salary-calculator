@@ -47,31 +47,21 @@ export function getFormInputs() {
 export function updateBabiesInput(child: HTMLInputElement) {
   const childrenNumber = Number(child.value);
 
-  const showBabies = childrenNumber > 0;
-  Array.from($$("[data-type='babies']")).forEach((babiesWrapper) => {
-    if (showBabies) {
-      show(babiesWrapper);
-    } else {
-      hide(babiesWrapper);
-    }
-  });
+  const showBabiesWrapper = childrenNumber > 0;
+  Array.from($$("[data-type='babies']")).forEach((babiesWrapper) =>
+    (showBabiesWrapper ? show : hide)(babiesWrapper)
+  );
 
   Array.from($$("[data-index][data-type='baby']")).forEach((babyLabel) => {
     const babyNumber = Number(babyLabel.dataset.index);
-    if (childrenNumber >= babyNumber) {
-      show(babyLabel);
-    } else {
-      hide(babyLabel);
-    }
+    const showBabyLabel = childrenNumber >= babyNumber;
+    (showBabyLabel ? show : hide)(babyLabel);
   });
 
   Array.from($$input("[data-index][name='babies']")).forEach((babyInput) => {
     const babyNumber = Number(babyInput.dataset.index);
-    if (childrenNumber >= babyNumber) {
-      enable(babyInput);
-    } else {
-      disable(babyInput);
-    }
+    const enableBabyInput = childrenNumber >= babyNumber;
+    (enableBabyInput ? enable : disable)(babyInput);
 
     const isBabyOverflow = babyInput.checked && babyNumber > childrenNumber;
     if (isBabyOverflow) {

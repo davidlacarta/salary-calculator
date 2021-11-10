@@ -1,6 +1,6 @@
 export interface Props {
   annualGrossSalary: number;
-  annualPaymentsNumber?: 12 | 14;
+  annualPaymentsNumber?: number;
   childrenNumber?: number;
   babiesNumber?: number;
 }
@@ -25,6 +25,10 @@ function grossToNetSalary({
     throw Error("Invalid babies number: " + babiesNumber);
   }
 
+  if (![12, 14].includes(annualPaymentsNumber)) {
+    throw Error("Invalid annual payments number: " + annualPaymentsNumber);
+  }
+
   const annualFee = calculateAnnualFee(annualGrossSalary);
   const netIncome = annualGrossSalary - annualFee;
   const netIncomeReduction = calculateNetIncomeReduction(
@@ -44,14 +48,14 @@ function grossToNetSalary({
   const monthlyNetSalaryExtra = {
     12: 0,
     14: (annualGrossSalary - annualWithholding) / 14,
-  }[annualPaymentsNumber];
+  }[annualPaymentsNumber as 12 | 14];
 
   const annualNetSalary = annualGrossSalary - annualFee - annualWithholding;
 
   const monthlyNetSalary = {
     12: (annualGrossSalary - annualFee - annualWithholding) / 12,
     14: (annualGrossSalary - annualWithholding) / 14 - annualFee / 12,
-  }[annualPaymentsNumber];
+  }[annualPaymentsNumber as 12 | 14];
 
   return {
     annualNetSalary: round(annualNetSalary),

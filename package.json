@@ -8,8 +8,9 @@
     "serve": "vite preview",
     "test": "jest",
     "test:e2e": "playwright test",
-    "test:e2e-concurrently": "concurrently -s first -k \"npm:serve\" \"npm:test:e2e\"",
-    "test:e2e-build": "npm run build && npm run test:e2e-concurrently"
+    "test:concurrently-serve-e2e": "concurrently -s first -k \"npm:serve\" \"npm:test:e2e\"",
+    "test:build-concurrently-serve-e2e": "npm run build && npm run test:concurrently-serve-e2e",
+    "test:all": "npm run test && npm run test:build-concurrently-serve-e2e"
   },
   "devDependencies": {
     "@playwright/test": "^1.16.3",
