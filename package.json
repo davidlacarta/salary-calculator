@@ -6,6 +6,7 @@
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
+    "serve:build": "npm run build && npm run serve",
     "test": "jest",
     "test:e2e": "playwright test",
     "test:concurrently-serve-e2e": "concurrently -s first -k \"npm:serve\" \"npm:test:e2e\"",
