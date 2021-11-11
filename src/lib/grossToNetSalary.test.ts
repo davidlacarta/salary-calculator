@@ -1,14 +1,22 @@
-import grossToNetSalary, { Props } from "./grossToNetSalary";
+import grossToNetSalary from "./grossToNetSalary";
 import { cases } from "../../tests/cases.json";
 
-cases.forEach(({ input, expected }) =>
-  test(parseTitle(input), () =>
-    expect(grossToNetSalary(input)).toStrictEqual(expected)
-  )
-);
+test.concurrent.each(cases)("%o", async ({ input, expected }) => {
+  expect(grossToNetSalary(input)).toStrictEqual(expected);
+});
 
-function parseTitle(input: Props) {
-  return Object.entries(input)
-    .map(([key, value]) => `${key}: ${value}`)
-    .join(", ");
-}
+test("Invalid payments number", () => {
+  expect(() =>
+    grossToNetSalary({ annualGrossSalary: 30000, annualPaymentsNumber: 15 })
+  ).toThrow(Error("Invalid annual payments number: " + 15));
+});
+
+test("Invalid babies number", () => {
+  expect(() =>
+    grossToNetSalary({
+      annualGrossSalary: 30000,
+      childrenNumber: 2,
+      babiesNumber: 3,
+    })
+  ).toThrow(Error("Invalid babies number: " + 3));
+});
