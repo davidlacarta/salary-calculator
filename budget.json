@@ -4,14 +4,22 @@
     "timings": [
       {
         "metric": "interactive",
-        "budget": 1200
+        "budget": 1800
       },
       {
-        "metric": "largest-contentful-paint",
+        "metric": "first-contentful-paint",
         "budget": 1000
       },
       {
+        "metric": "largest-contentful-paint",
+        "budget": 1800
+      },
+      {
         "metric": "total-blocking-time",
+        "budget": 60
+      },
+      {
+        "metric": "cumulative-layout-shift",
         "budget": 0
       }
     ],
@@ -24,7 +32,7 @@
     "resourceCounts": [
       {
         "resourceType": "third-party",
-        "budget": 0
+        "budget": 3
       }
     ]
   }
