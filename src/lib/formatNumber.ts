@@ -4,6 +4,7 @@ export default function formatNumber(amount?: number) {
       style: "currency",
       currency: "EUR",
       maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
     }) ?? ""
   );
 }
