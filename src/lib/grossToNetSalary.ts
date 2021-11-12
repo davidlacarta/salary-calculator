@@ -21,41 +21,47 @@ function grossToNetSalary({
   childrenNumber = 0,
   babiesNumber = 0,
 }: Props): Result {
-  if (babiesNumber > childrenNumber) {
-    throw Error("Invalid babies number: " + babiesNumber);
-  }
+  validate({
+    babiesNumber,
+    childrenNumber,
+    annualPaymentsNumber,
+  });
 
-  if (![12, 14].includes(annualPaymentsNumber)) {
-    throw Error("Invalid annual payments number: " + annualPaymentsNumber);
-  }
+  const annualFee = calculateAnnualFee({ annualGrossSalary });
 
-  const annualFee = calculateAnnualFee(annualGrossSalary);
-  const netIncome = annualGrossSalary - annualFee;
-  const netIncomeReduction = calculateNetIncomeReduction(
-    netIncome,
-    childrenNumber
-  );
-  const taxBase = annualGrossSalary - annualFee - netIncomeReduction;
+  const netIncomeReduction = calculateNetIncomeReduction({
+    annualGrossSalary,
+    annualFee,
+    childrenNumber,
+  });
 
-  const annualWithholding =
-    calculateWithholding({
-      taxBase,
+  const taxBase = calculateTaxtBase({
+    annualGrossSalary,
+    annualFee,
+    netIncomeReduction,
+  });
+
+  const annualWithholding = calculateAnnualWithholding({
+    taxBase,
+    annualGrossSalary,
+    childrenNumber,
+    babiesNumber,
+  });
+
+  const annualNetSalary = calculateAnnualNetSalary({
+    annualGrossSalary,
+    annualFee,
+    annualWithholding,
+  });
+
+  const { monthlyNetSalaryExtra, monthlyNetSalary } = calculateMonthlyNetSalary(
+    {
       annualGrossSalary,
-      childrenNumber,
-      babiesNumber,
-    }) * annualGrossSalary;
-
-  const monthlyNetSalaryExtra = {
-    12: 0,
-    14: (annualGrossSalary - annualWithholding) / 14,
-  }[annualPaymentsNumber as 12 | 14];
-
-  const annualNetSalary = annualGrossSalary - annualFee - annualWithholding;
-
-  const monthlyNetSalary = {
-    12: (annualGrossSalary - annualFee - annualWithholding) / 12,
-    14: (annualGrossSalary - annualWithholding) / 14 - annualFee / 12,
-  }[annualPaymentsNumber as 12 | 14];
+      annualWithholding,
+      annualPaymentsNumber,
+      annualFee,
+    }
+  );
 
   return {
     annualNetSalary: round(annualNetSalary),
@@ -66,11 +72,37 @@ function grossToNetSalary({
   };
 }
 
+function validate({
+  babiesNumber,
+  childrenNumber,
+  annualPaymentsNumber,
+}: Partial<Props>) {
+  if (babiesNumber! > childrenNumber!) {
+    throw Error("Invalid babies number: " + babiesNumber);
+  }
+
+  if (![12, 14].includes(annualPaymentsNumber!)) {
+    throw Error("Invalid annual payments number: " + annualPaymentsNumber);
+  }
+}
+
 function round(amount: number) {
   return Math.round(amount * 10) / 10;
 }
 
-function calculateWithholding({
+function calculateTaxtBase({
+  annualGrossSalary,
+  annualFee,
+  netIncomeReduction,
+}: {
+  annualGrossSalary: number;
+  annualFee: number;
+  netIncomeReduction: number;
+}) {
+  return annualGrossSalary - annualFee - netIncomeReduction;
+}
+
+function calculateAnnualWithholding({
   taxBase,
   annualGrossSalary,
   childrenNumber,
@@ -94,13 +126,19 @@ function calculateWithholding({
   );
 
   return (
-    Number(
+    (Number(
       ((beforeWithholding / annualGrossSalary) * 100).toFixed(FRACTION_DIGITS)
-    ) / 100
+    ) /
+      100) *
+    annualGrossSalary
   );
 }
 
-function calculateAnnualFee(annualGrossSalary: number) {
+function calculateAnnualFee({
+  annualGrossSalary,
+}: {
+  annualGrossSalary: number;
+}) {
   const FEE = 0.0635;
   const MONTHLY_RANGE = { min: 1052.9, max: 3751.2 };
 
@@ -115,14 +153,20 @@ function calculateAnnualFee(annualGrossSalary: number) {
   return monthlyGrossSalaryInRange * 12 * FEE;
 }
 
-function calculateNetIncomeReduction(
-  netIncome: number,
-  childrenNumber: number
-) {
+function calculateNetIncomeReduction({
+  annualGrossSalary,
+  annualFee,
+  childrenNumber,
+}: {
+  annualGrossSalary: number;
+  annualFee: number;
+  childrenNumber: number;
+}) {
   const BASE_REDUCTION = 2000;
   const MIN_REDUCTION = 3700;
   const RANGE = { min: 11250, max: 14450 };
   const childrenBonus = childrenNumber > 2 ? 600 : 0;
+  const netIncome = annualGrossSalary - annualFee;
 
   return (
     BASE_REDUCTION +
@@ -201,6 +245,42 @@ function calculateChildrenBonus(childrenNumber: number) {
   }
 
   return 2400 + 2700 + 4000 + 4500 + 4500 * (childrenNumber - 4);
+}
+
+function calculateAnnualNetSalary({
+  annualGrossSalary,
+  annualFee,
+  annualWithholding,
+}: {
+  annualGrossSalary: number;
+  annualFee: number;
+  annualWithholding: number;
+}) {
+  return annualGrossSalary - annualFee - annualWithholding;
+}
+
+function calculateMonthlyNetSalary({
+  annualGrossSalary,
+  annualWithholding,
+  annualPaymentsNumber,
+  annualFee,
+}: {
+  annualGrossSalary: number;
+  annualWithholding: number;
+  annualPaymentsNumber: number;
+  annualFee: number;
+}) {
+  const monthlyNetSalaryExtra = {
+    12: 0,
+    14: (annualGrossSalary - annualWithholding) / 14,
+  }[annualPaymentsNumber as 12 | 14];
+
+  const monthlyNetSalary = {
+    12: (annualGrossSalary - annualFee - annualWithholding) / 12,
+    14: (annualGrossSalary - annualWithholding) / 14 - annualFee / 12,
+  }[annualPaymentsNumber as 12 | 14];
+
+  return { monthlyNetSalary, monthlyNetSalaryExtra };
 }
 
 function calculateBabiesBonus(babiesNumber: number) {
