@@ -2,6 +2,18 @@
   "cases": [
     {
       "input": {
+        "annualGrossSalary": 0
+      },
+      "expected": {
+        "annualNetSalary": -802.3,
+        "annualFee": 802.3,
+        "annualWithholding": 0,
+        "monthlyNetSalary": -66.9,
+        "monthlyNetSalaryExtra": 0
+      }
+    },
+    {
+      "input": {
         "annualGrossSalary": 30000
       },
       "expected": {

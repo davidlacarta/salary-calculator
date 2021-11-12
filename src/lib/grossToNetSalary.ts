@@ -1,3 +1,5 @@
+import divide from "./divide";
+
 export interface Props {
   annualGrossSalary: number;
   annualPaymentsNumber?: number;
@@ -119,7 +121,7 @@ function calculateAnnualWithholding({
     babiesNumber,
   });
 
-  const previousType = (withholdingFee / annualGrossSalary) * 100;
+  const previousType = divide(withholdingFee, annualGrossSalary) * 100;
 
   const beforeWithholding = Number(
     ((previousType / 100) * annualGrossSalary).toFixed(FRACTION_DIGITS)
@@ -127,7 +129,9 @@ function calculateAnnualWithholding({
 
   return (
     (Number(
-      ((beforeWithholding / annualGrossSalary) * 100).toFixed(FRACTION_DIGITS)
+      (divide(beforeWithholding, annualGrossSalary) * 100).toFixed(
+        FRACTION_DIGITS
+      )
     ) /
       100) *
     annualGrossSalary
