@@ -1,0 +1,15 @@
+<main
+  class="grid h-full max-w-5xl m-auto  grid-rows-main sm:grid-cols-main md:grid-cols-2"
+>
+  <header class="p-4 sm:col-span-2 sm:pb-12 pt-8-dynamic px-4-dynamic">
+    {{> components/header/index}}
+  </header>
+  <form class="grid gap-4 auto-rows-min p-4-dynamic">
+    {{> components/form/index}}
+  </form>
+  <div class="flex p-4-dynamic">
+    <div class="stats w-full grid-flow-row h-[fit-content] shadow">
+      {{> components/result/index}}
+    </div>
+  </div>
+</main>
