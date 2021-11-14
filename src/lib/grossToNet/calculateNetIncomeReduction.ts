@@ -1,12 +1,14 @@
+export interface Props {
+  annualGrossSalary: number;
+  annualFee: number;
+  childrenNumber: number;
+}
+
 export function calculateNetIncomeReduction({
   annualGrossSalary,
   annualFee,
   childrenNumber,
-}: {
-  annualGrossSalary: number;
-  annualFee: number;
-  childrenNumber: number;
-}) {
+}: Props) {
   const BASE_REDUCTION = 2000;
   const MIN_REDUCTION = 3700;
   const RANGE = { min: 11250, max: 14450 };

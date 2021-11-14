@@ -1,11 +1,13 @@
+export interface Props {
+  annualGrossSalary: number;
+  annualFee: number;
+  netIncomeReduction: number;
+}
+
 export function calculateTaxtBase({
   annualGrossSalary,
   annualFee,
   netIncomeReduction,
-}: {
-  annualGrossSalary: number;
-  annualFee: number;
-  netIncomeReduction: number;
-}) {
+}: Props) {
   return annualGrossSalary - annualFee - netIncomeReduction;
 }

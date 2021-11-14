@@ -1,8 +1,8 @@
-export function calculateAnnualFee({
-  annualGrossSalary,
-}: {
+export interface Props {
   annualGrossSalary: number;
-}) {
+}
+
+export function calculateAnnualFee({ annualGrossSalary }: Props) {
   const FEE = 0.0635;
   const MONTHLY_RANGE = { min: 1052.9, max: 3751.2 };
 

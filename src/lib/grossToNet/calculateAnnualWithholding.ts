@@ -2,17 +2,19 @@ import { divide } from "../divide";
 import { calculateWithholdingFee } from "./calculateWithholdingFee";
 import { FRACTION_DIGITS } from "./index";
 
+export interface Props {
+  taxBase: number;
+  annualGrossSalary: number;
+  childrenNumber: number;
+  babiesNumber: number;
+}
+
 export function calculateAnnualWithholding({
   taxBase,
   annualGrossSalary,
   childrenNumber,
   babiesNumber,
-}: {
-  taxBase: number;
-  annualGrossSalary: number;
-  childrenNumber: number;
-  babiesNumber: number;
-}) {
+}: Props) {
   const withholdingFee = calculateWithholdingFee({
     taxBase,
     childrenNumber,

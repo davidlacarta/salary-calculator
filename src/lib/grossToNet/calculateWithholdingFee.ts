@@ -3,15 +3,17 @@ import { calculateChildrenBonus } from "./calculateChildrenBonus";
 import { calculateTaxableBase } from "./calculateTaxableBase";
 import { FRACTION_DIGITS } from "./index";
 
+export interface Props {
+  taxBase: number;
+  childrenNumber: number;
+  babiesNumber: number;
+}
+
 export function calculateWithholdingFee({
   taxBase,
   childrenNumber,
   babiesNumber,
-}: {
-  taxBase: number;
-  childrenNumber: number;
-  babiesNumber: number;
-}) {
+}: Props) {
   const baseBonus = 5550;
   const childrenBonus = calculateChildrenBonus(childrenNumber) / 2;
   const babiesBonus = calculateBabiesBonus(babiesNumber) / 2;

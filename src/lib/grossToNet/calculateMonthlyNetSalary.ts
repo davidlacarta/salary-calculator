@@ -1,14 +1,16 @@
+export interface Props {
+  annualGrossSalary: number;
+  annualWithholding: number;
+  annualPaymentsNumber: number;
+  annualFee: number;
+}
+
 export function calculateMonthlyNetSalary({
   annualGrossSalary,
   annualWithholding,
   annualPaymentsNumber,
   annualFee,
-}: {
-  annualGrossSalary: number;
-  annualWithholding: number;
-  annualPaymentsNumber: number;
-  annualFee: number;
-}) {
+}: Props) {
   const monthlyNetSalaryExtra = {
     12: 0,
     14: (annualGrossSalary - annualWithholding) / 14,

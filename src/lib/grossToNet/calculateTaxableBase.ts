@@ -1,23 +1,33 @@
-export function calculateTaxableBase(taxBase: number) {
-  const sections = [
-    taxBase < 12450 ? taxBase * 0.19 : 12450 * 0.19,
-    taxBase < 12450
-      ? 0
-      : taxBase > 20200
-      ? (20200 - 12450) * 0.24
-      : (taxBase - 12450) * 0.24,
-    taxBase < 20200
-      ? 0
-      : taxBase > 35200
-      ? (35200 - 20200) * 0.3
-      : (taxBase - 20200) * 0.3,
-    taxBase < 35200
-      ? 0
-      : taxBase > 60000
-      ? (60000 - 35200) * 0.37
-      : (taxBase - 35200) * 0.37,
-    taxBase < 60000 ? 0 : (taxBase - 60000) * 0.45,
-  ];
-
-  return sections.reduce((sum, section) => sum + section, 0);
+export function calculateTaxableBase(gross: number) {
+  return [
+    {
+      from: 0,
+      to: 12450,
+      tax: 0.19,
+    },
+    {
+      from: 12450,
+      to: 20200,
+      tax: 0.24,
+    },
+    {
+      from: 20200,
+      to: 35200,
+      tax: 0.3,
+    },
+    {
+      from: 35200,
+      to: 60000,
+      tax: 0.37,
+    },
+    {
+      from: 60000,
+      to: Infinity,
+      tax: 0.45,
+    },
+  ].reduce((sum, { from, to, tax }) => {
+    const grossInTaxSection =
+      gross < from ? 0 : gross > to ? to - from : gross - from;
+    return sum + grossInTaxSection * tax;
+  }, 0);
 }
