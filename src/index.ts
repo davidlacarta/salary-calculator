@@ -1,7 +1,7 @@
 import Header from "./components/header/index";
 import Form, { getFormInputs } from "./components/form";
 import { updateResult } from "./components/result";
-import grossToNetSalary from "./lib/grossToNetSalary";
+import grossToNet from "./lib/grossToNet";
 
 Header.init();
 Form.init();
@@ -20,7 +20,7 @@ window.addEventListener("input", () => {
     annualWithholding,
     annualFee,
     monthlyNetSalaryExtra,
-  } = grossToNetSalary({
+  } = grossToNet({
     annualGrossSalary,
     annualPaymentsNumber,
     childrenNumber,

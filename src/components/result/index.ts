@@ -1,6 +1,6 @@
 import { $, $$ } from "../../lib/dom";
-import formatNumber from "../../lib/formatNumber";
-import { Result } from "../../lib/grossToNetSalary";
+import { formatNumber } from "../../lib/formatNumber";
+import { Result } from "../../lib/grossToNet";
 
 export function updateResult({
   monthlyNetSalary,

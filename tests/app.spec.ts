@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import formatNumber from "../src/lib/formatNumber";
+import { formatNumber } from "../src/lib/formatNumber";
 import { cases } from "./cases.json";
 import SalaryPage from "./page";
 import util from "util";
