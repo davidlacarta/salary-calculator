@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full transition-all bg-base-200">
+  <head>
+    {{> components/meta }}
+    <link href="../index.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="/favicon/coins.svg" />
+    <script type="text/javascript">
+      const urlParams = new URLSearchParams(window.location.search);
+      const theme = urlParams.get("theme");
+      if (theme) {
+        document.querySelector("html").dataset.theme = theme;
+      }
+    </script>
+    <script async type="module" src="/embed/index.ts"></script>
+    <script
+      async
+      defer
+      data-website-id="{{ VITE_UMAMI_WEBSITE_ID }}"
+      src="{{ VITE_UMAMI_SRC }}"
+      data-domains="{{ VITE_UMAMI_DOMAINS }}"
+    ></script>
+  </head>
+  <body class="h-full">
+    {{> embed/body }}
+  </body>
+</html>

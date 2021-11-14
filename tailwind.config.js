@@ -15,6 +15,7 @@ module.exports = {
     extend: {
       gridTemplateRows: {
         main: "auto 1fr auto",
+        embed: "1fr auto",
       },
       gridTemplateColumns: {
         main: "auto 1fr",
@@ -37,7 +38,6 @@ module.exports = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["cupcake", "synthwave"],
     logs: false,
   },
 };
