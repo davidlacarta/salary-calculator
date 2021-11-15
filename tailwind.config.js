@@ -31,6 +31,9 @@ module.exports = {
       lineHeight: {
         "12-dynamic": "clamp(2rem, 5vw, 3rem)",
       },
+      screens: {
+        "h-sm": { raw: "(min-height: 700px),(min-width:640px)" },
+      },
     },
   },
   variants: {

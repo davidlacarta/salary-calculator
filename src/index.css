@@ -7,3 +7,9 @@
 html {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer base {
+  .radio {
+    @apply flex-shrink-0;
+  }
+}

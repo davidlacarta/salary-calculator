@@ -11,7 +11,8 @@
     "test:e2e": "playwright test",
     "test:concurrently-serve-e2e": "concurrently -s first -k \"npm:serve\" \"npm:test:e2e\"",
     "test:build-concurrently-serve-e2e": "npm run build && npm run test:concurrently-serve-e2e",
-    "test:all": "npm run test && npm run test:build-concurrently-serve-e2e"
+    "test:all": "npm run test && npm run test:build-concurrently-serve-e2e",
+    "test:lighthouse": "npx lighthouse http://localhost:5000/ --budget-path=./budget.json --output-path=./lighthouse-results.html"
   },
   "devDependencies": {
     "@playwright/test": "^1.16.3",

@@ -1,19 +1,27 @@
 <main
-  class="
-    grid
-    h-full
-    max-w-5xl
-    m-auto
-    grid-rows-embed
-    sm:grid-cols-main
-    md:grid-cols-2
-  "
+  class="grid max-w-5xl min-h-full m-auto  grid-rows-embed sm:grid-cols-main md:grid-cols-2"
 >
-  <form class="grid gap-4 auto-rows-min p-4-dynamic">
+  <form class="grid gap-8 auto-rows-min p-4-dynamic">
     {{> components/form/index}}
   </form>
-  <div class="flex p-4-dynamic">
-    <div class="stats w-full grid-flow-row h-[fit-content] shadow">
+  <div
+    class="
+      sticky
+      bottom-0
+      sm:bottom-auto sm:top-0
+      h-[fit-content]
+      flex
+      p-4-dynamic
+      before:absolute
+      before:inset-0
+      before:z-[-1]
+      before:bg-gradient-to-t
+      before:from-base-200
+      before:via-base-200
+      sm:before:bg-none
+    "
+  >
+    <div class="stats w-full grid-flow-row sm:h-[fit-content] shadow">
       {{> components/result/index}}
     </div>
   </div>

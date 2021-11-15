@@ -1,4 +1,5 @@
 import {
+  $,
   $$,
   $$input,
   $input,
@@ -47,10 +48,14 @@ export function getFormInputs() {
 export function updateBabiesInput(child: HTMLInputElement) {
   const childrenNumber = Number(child.value);
 
-  const showBabiesWrapper = childrenNumber > 0;
+  const showBabies = childrenNumber > 0;
   Array.from($$("[data-type='babies']")).forEach((babiesWrapper) =>
-    (showBabiesWrapper ? show : hide)(babiesWrapper)
+    (showBabies ? show : hide)(babiesWrapper)
   );
+
+  if (showBabies) {
+    $("#babies").scrollIntoView();
+  }
 
   Array.from($$("[data-index][data-type='baby']")).forEach((babyLabel) => {
     const babyNumber = Number(babyLabel.dataset.index);
