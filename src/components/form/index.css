@@ -18,6 +18,13 @@
         @apply opacity-100;
       }
 
+      @media (hover: hover) {
+        &:hover + label:not([data-index="0"]),
+        &:focus-visible + label:not([data-index="0"]) {
+          @apply transition transform scale-125;
+        }
+      }
+
       &:not(:checked):not(:hover) + label[data-index="0"] {
         @apply opacity-30;
       }
