@@ -4,15 +4,15 @@
     "timings": [
       {
         "metric": "interactive",
-        "budget": 1800
+        "budget": 1940
       },
       {
         "metric": "first-contentful-paint",
-        "budget": 1000
+        "budget": 1070
       },
       {
         "metric": "largest-contentful-paint",
-        "budget": 1800
+        "budget": 1550
       },
       {
         "metric": "total-blocking-time",

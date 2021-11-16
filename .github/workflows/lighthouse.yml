@@ -17,6 +17,6 @@ jobs:
         uses: treosh/lighthouse-ci-action@v8
         with:
           urls: ${{ steps.waitFor200.outputs.url }}
-          runs: 3
+          runs: 5
           uploadArtifacts: true
           budgetPath: ./budget.json
