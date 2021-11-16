@@ -16,6 +16,7 @@ test.describe.parallel("main", () => {
       if (input?.childrenNumber) {
         await salaryPage.clickBabiesNumber(input.babiesNumber);
       }
+      await salaryPage.clickDisabilityPercentage(input.disabilityPercentage);
 
       await expect(salaryPage.getMonthlyNetSalary()).toHaveText(
         formatNumber(expected.monthlyNetSalary)

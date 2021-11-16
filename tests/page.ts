@@ -30,6 +30,18 @@ class SalaryPage {
     await this.page.click(`label[for='babies${babiesNumber ?? 0}']`);
   }
 
+  async clickDisabilityPercentage(disabilityPercentage?: number) {
+    await this.page.click(
+      `label[for='disability${
+        !disabilityPercentage || disabilityPercentage < 33
+          ? 0
+          : disabilityPercentage < 65
+          ? 33
+          : 65
+      }']`
+    );
+  }
+
   getMonthlyNetSalary() {
     return this.page.locator("#monthly-net-salary");
   }

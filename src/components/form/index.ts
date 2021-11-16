@@ -30,18 +30,18 @@ export function getFormInputs() {
   const annualPaymentsNumber = Number(
     $input("[name='annual-payments-number']:checked").value
   ) as 12 | 14;
-  const childrenNumber = Number(
-    $input("[name='children']:checked").value
-  ) as number;
-  const babiesNumber = Number(
-    $input("[name='babies']:checked").value
-  ) as number;
+  const childrenNumber = Number($input("[name='children']:checked").value);
+  const babiesNumber = Number($input("[name='babies']:checked").value);
+  const disabilityPercentage = Number(
+    $input("[name='disability-percentage']:checked").value
+  );
 
   return {
     annualGrossSalary,
     annualPaymentsNumber,
     childrenNumber,
     babiesNumber,
+    disabilityPercentage,
   };
 }
 

@@ -27,6 +27,32 @@
     {
       "input": {
         "annualGrossSalary": 30000,
+        "disabilityPercentage": 33
+      },
+      "expected": {
+        "annualNetSalary": 24777,
+        "annualFee": 1905,
+        "annualWithholding": 3318,
+        "monthlyNetSalary": 2064.8,
+        "monthlyNetSalaryExtra": 0
+      }
+    },
+    {
+      "input": {
+        "annualGrossSalary": 30000,
+        "disabilityPercentage": 65
+      },
+      "expected": {
+        "annualNetSalary": 27903,
+        "annualFee": 1905,
+        "annualWithholding": 192,
+        "monthlyNetSalary": 2325.3,
+        "monthlyNetSalaryExtra": 0
+      }
+    },
+    {
+      "input": {
+        "annualGrossSalary": 30000,
         "childrenNumber": 2
       },
       "expected": {

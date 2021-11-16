@@ -7,6 +7,7 @@ export interface Props {
   annualGrossSalary: number;
   childrenNumber: number;
   babiesNumber: number;
+  disabilityPercentage: number;
 }
 
 export function calculateAnnualWithholding({
@@ -14,11 +15,13 @@ export function calculateAnnualWithholding({
   annualGrossSalary,
   childrenNumber,
   babiesNumber,
+  disabilityPercentage,
 }: Props) {
   const withholdingFee = calculateWithholdingFee({
     taxBase,
     childrenNumber,
     babiesNumber,
+    disabilityPercentage,
   });
 
   const previousType = divide(withholdingFee, annualGrossSalary) * 100;

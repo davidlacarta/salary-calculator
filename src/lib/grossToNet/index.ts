@@ -11,6 +11,7 @@ export interface Props {
   annualPaymentsNumber?: number;
   childrenNumber?: number;
   babiesNumber?: number;
+  disabilityPercentage?: number;
 }
 
 export interface Result {
@@ -28,6 +29,7 @@ function grossToNetSalary({
   annualPaymentsNumber = 12,
   childrenNumber = 0,
   babiesNumber = 0,
+  disabilityPercentage = 0,
 }: Props): Result {
   validate({
     babiesNumber,
@@ -41,6 +43,7 @@ function grossToNetSalary({
     annualGrossSalary,
     annualFee,
     childrenNumber,
+    disabilityPercentage,
   });
 
   const taxBase = calculateTaxtBase({
@@ -54,6 +57,7 @@ function grossToNetSalary({
     annualGrossSalary,
     childrenNumber,
     babiesNumber,
+    disabilityPercentage,
   });
 
   const annualNetSalary = calculateAnnualNetSalary({

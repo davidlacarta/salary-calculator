@@ -15,6 +15,7 @@ function updateGrossToNet() {
     annualPaymentsNumber,
     childrenNumber,
     babiesNumber,
+    disabilityPercentage,
   } = getFormInputs();
 
   const {
@@ -28,6 +29,7 @@ function updateGrossToNet() {
     annualPaymentsNumber,
     childrenNumber,
     babiesNumber,
+    disabilityPercentage,
   });
 
   updateResult({
