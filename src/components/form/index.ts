@@ -54,7 +54,7 @@ export function updateBabiesInput(child: HTMLInputElement) {
   );
 
   if (showBabies) {
-    $("#babies").scrollIntoView();
+    $("#babies").scrollIntoView({ behavior: "smooth" });
   }
 
   Array.from($$("[data-index][data-type='baby']")).forEach((babyLabel) => {
