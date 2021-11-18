@@ -1,8 +1,7 @@
 import { calculateBabiesBonus } from "./calculateBabiesBonus";
 import { calculateChildrenBonus } from "./calculateChildrenBonus";
 import { calculateDisabilityBonus } from "./calculateDisabilityBonus";
-import { calculateTaxableBase } from "./calculateTaxableBase";
-import { FRACTION_DIGITS } from "./index";
+import { calculateTaxableAmount } from "./calculateTaxableAmount";
 
 export interface Props {
   taxBase: number;
@@ -11,26 +10,34 @@ export interface Props {
   disabilityPercentage: number;
 }
 
+const BASE_BONUS = 5550;
+
 export function calculateWithholdingFee({
   taxBase,
   childrenNumber,
   babiesNumber,
   disabilityPercentage,
 }: Props) {
-  const baseBonus = 5550;
+  const bonus = calculateBonus({
+    childrenNumber,
+    babiesNumber,
+    disabilityPercentage,
+  });
+
+  const withholdingFee =
+    calculateTaxableAmount(taxBase) - calculateTaxableAmount(bonus);
+
+  return withholdingFee < 0 ? 0 : withholdingFee;
+}
+
+function calculateBonus({
+  childrenNumber,
+  babiesNumber,
+  disabilityPercentage,
+}: Pick<Props, "childrenNumber" | "babiesNumber" | "disabilityPercentage">) {
   const childrenBonus = calculateChildrenBonus(childrenNumber) / 2;
   const babiesBonus = calculateBabiesBonus(babiesNumber) / 2;
   const disabilityBonus = calculateDisabilityBonus(disabilityPercentage);
-  const bonus = baseBonus + childrenBonus + babiesBonus + disabilityBonus;
-  const withholdingFee = Number(
-    (calculateTaxableBase(taxBase) - calculateTaxableBase(bonus)).toFixed(
-      FRACTION_DIGITS
-    )
-  );
 
-  if (withholdingFee < 0) {
-    return 0;
-  }
-
-  return Number(withholdingFee.toFixed(FRACTION_DIGITS));
+  return BASE_BONUS + childrenBonus + babiesBonus + disabilityBonus;
 }

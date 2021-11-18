@@ -34,24 +34,14 @@ export function calculateNetIncomeReduction({
 export function calculateDisabilityReduction(disabilityPercentage: number) {
   return (
     [
-      {
-        from: 0,
-        to: 33,
-        reduction: 0,
-      },
-      {
-        from: 33,
-        to: 65,
-        reduction: 3500,
-      },
-      {
-        from: 65,
-        to: Infinity,
-        reduction: 7750,
-      },
-    ].find(
-      ({ from, to }) =>
-        disabilityPercentage >= from && disabilityPercentage < to
-    )?.reduction ?? 0
+      [0, 33, 0],
+      [33, 65, 3500],
+      [65, Infinity, 7750],
+    ]
+      .map(([from, to, reduction]) => ({ from, to, reduction }))
+      .find(
+        ({ from, to }) =>
+          disabilityPercentage >= from && disabilityPercentage < to
+      )?.reduction ?? 0
   );
 }

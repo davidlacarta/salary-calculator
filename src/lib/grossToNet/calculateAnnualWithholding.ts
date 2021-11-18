@@ -24,19 +24,17 @@ export function calculateAnnualWithholding({
     disabilityPercentage,
   });
 
-  const previousType = divide(withholdingFee, annualGrossSalary) * 100;
+  const previousType = divide(withholdingFee, annualGrossSalary);
 
   const beforeWithholding = Number(
-    ((previousType / 100) * annualGrossSalary).toFixed(FRACTION_DIGITS)
+    (previousType * annualGrossSalary).toFixed(FRACTION_DIGITS)
   );
 
   return (
-    (Number(
-      (divide(beforeWithholding, annualGrossSalary) * 100).toFixed(
-        FRACTION_DIGITS
-      )
-    ) /
-      100) *
-    annualGrossSalary
+    round(divide(beforeWithholding, annualGrossSalary)) * annualGrossSalary
   );
+}
+
+function round(amount: number) {
+  return Number((amount * 100).toFixed(FRACTION_DIGITS)) / 100;
 }
