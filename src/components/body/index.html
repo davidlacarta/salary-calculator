@@ -1,0 +1,33 @@
+<main
+  class="grid max-w-5xl min-h-full m-auto {{#if embed}} grid-rows-embed {{else}} grid-rows-main {{/if}} sm:grid-cols-main md:grid-cols-2"
+>
+  {{#unless embed}}
+  <header class="p-4 sm:col-span-2 sm:pb-12 pt-8-dynamic px-4-dynamic">
+    {{> components/header/index }}
+  </header>
+  {{/unless}}
+  <section class="p-4-dynamic">
+    {{> components/form/index minimal=minimal }}
+  </section>
+  <section
+    class="
+      sticky
+      bottom-0
+      sm:bottom-auto sm:top-0
+      h-[fit-content]
+      flex
+      p-4-dynamic
+      before:absolute
+      before:inset-0
+      before:z-[-1]
+      before:bg-gradient-to-t
+      before:from-base-200
+      before:via-base-200
+      sm:before:bg-none
+    "
+  >
+    <div class="stats w-full grid-flow-row sm:h-[fit-content] shadow">
+      {{> components/result/index}}
+    </div>
+  </section>
+</main>

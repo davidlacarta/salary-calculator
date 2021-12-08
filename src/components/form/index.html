@@ -1,0 +1,8 @@
+<form class="grid gap-8 auto-rows-min">
+  <fieldset>{{> components/form/salary }}</fieldset>
+  <fieldset>{{> components/form/payments }}</fieldset>
+  {{#unless minimal}}
+  <fieldset>{{> components/form/children }}</fieldset>
+  <fieldset>{{> components/form/disability }}</fieldset>
+  {{/unless}}
+</form>

@@ -1,0 +1,33 @@
+{
+  "name": "salary-calculator",
+  "version": "1.0.0",
+  "description": "Salary calculator",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "serve:build": "npm run build && npm run serve",
+    "test": "jest",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "npx playwright install --with-deps",
+    "test:concurrently-serve-e2e": "concurrently -s first -k \"npm:serve\" \"npm:test:e2e\"",
+    "test:build-concurrently-serve-e2e": "npm run build && npm run test:concurrently-serve-e2e",
+    "test:all": "npm run test && npm run test:build-concurrently-serve-e2e",
+    "test:lighthouse": "npx lighthouse http://localhost:5000/ --budget-path=./budget.json --output-path=./lighthouse-results.html"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.16.3",
+    "@types/jest": "^27.0.2",
+    "autoprefixer": "^10.3.7",
+    "concurrently": "^6.3.0",
+    "daisyui": "^1.16.0",
+    "jest": "^27.3.1",
+    "postcss": "^8.3.11",
+    "postcss-nested": "^5.0.6",
+    "tailwindcss": "^2.2.17",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.4.4",
+    "vite": "^2.6.10",
+    "vite-plugin-handlebars": "^1.6.0"
+  }
+}

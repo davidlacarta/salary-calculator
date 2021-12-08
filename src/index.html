@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full transition-all bg-base-200" data-theme="cupcake">
+  <head>
+    <title>{{ title }}</title>
+    {{> components/meta }} {{> components/links }}
+    <script type="text/javascript">
+      const theme =
+        window.localStorage.getItem("theme") ??
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+
+      if (theme === "dark") {
+        document.querySelector("html").dataset.theme = "synthwave";
+      }
+    </script>
+    <script async type="module" src="/index.ts"></script>
+    {{> components/scripts }}
+  </head>
+  <body class="h-full">
+    {{> components/body/index }}
+  </body>
+</html>

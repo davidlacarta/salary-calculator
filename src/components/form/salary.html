@@ -1,0 +1,30 @@
+<label class="block mb-2" for="annual-gross-salary">Salario bruto anual</label>
+<div class="relative mb-4">
+  <input
+    id="annual-gross-salary"
+    name="annual-gross-salary"
+    class="w-full pl-10 text-xl input input-bordered input-md"
+    type="number"
+    value="30000"
+    min="0"
+    step="100"
+    required
+  />
+  <span
+    class="absolute text-xl transform translate-y-1/2  opacity-60 bottom-1/2 left-4"
+    >€</span
+  >
+</div>
+<label class="sr-only" for="annual-gross-salary-range"
+  >Rango de salario bruto anual</label
+>
+<input
+  id="annual-gross-salary-range"
+  name="annual-gross-salary-range"
+  class="range range-accent range-lg"
+  type="range"
+  min="10000"
+  max="100000"
+  value="30000"
+  step="1000"
+/>

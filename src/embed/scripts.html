@@ -1,0 +1,7 @@
+<script type="text/javascript">
+  const urlParams = new URLSearchParams(window.location.search);
+  const theme = urlParams.get("theme");
+  if (theme) {
+    document.querySelector("html").dataset.theme = theme;
+  }
+</script>
