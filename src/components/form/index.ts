@@ -11,7 +11,10 @@ import {
 } from "../../lib/dom";
 
 export default {
-  init: ({ minimal }: { minimal: boolean }) => {
+  init: ({
+    minimal = false,
+    embed = false,
+  }: { minimal?: boolean; embed?: boolean } = {}) => {
     $("form").addEventListener("submit", (event) => event.preventDefault());
 
     bindInputs(
@@ -26,7 +29,7 @@ export default {
     Array.from($$input("[name='children']")).forEach((child) =>
       child.addEventListener("input", () => {
         updateOutput("children");
-        updateBabiesFieldset(child);
+        updateBabiesFieldset(child, { scrollBabbies: !embed });
       })
     );
 
@@ -78,7 +81,10 @@ export function getFormInputs({ minimal = false }: { minimal: boolean }) {
   };
 }
 
-export function updateBabiesFieldset(child: HTMLInputElement) {
+export function updateBabiesFieldset(
+  child: HTMLInputElement,
+  { scrollBabbies = false }: { scrollBabbies?: boolean } = {}
+) {
   const childrenNumber = Number(child.value);
 
   const showBabies = childrenNumber > 0;
@@ -86,7 +92,7 @@ export function updateBabiesFieldset(child: HTMLInputElement) {
     (showBabies ? show : hide)(babiesWrapper)
   );
 
-  if (showBabies) {
+  if (showBabies && scrollBabbies) {
     $("#babies").scrollIntoView({ behavior: "smooth" });
   }
 

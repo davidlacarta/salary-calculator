@@ -3,8 +3,11 @@ import { updateResult } from "../result";
 import grossToNet from "../../lib/grossToNet";
 
 export default {
-  init: ({ minimal = false }: { minimal?: boolean } = {}) => {
-    Form.init({ minimal });
+  init: ({
+    minimal = false,
+    embed = false,
+  }: { minimal?: boolean; embed?: boolean } = {}) => {
+    Form.init({ minimal, embed });
     window.addEventListener("input", () => updateGrossToNet({ minimal }));
   },
 };

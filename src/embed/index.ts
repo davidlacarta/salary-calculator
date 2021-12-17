@@ -1,3 +1,3 @@
 import Body from "../components/body";
 
-Body.init();
+Body.init({ embed: true });
